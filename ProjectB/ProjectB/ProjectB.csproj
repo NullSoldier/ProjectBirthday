@@ -111,6 +111,7 @@
     <Compile Include="CloudManager.cs" />
     <Compile Include="Levels\LevelOne.cs" />
     <Compile Include="RandomHelper.cs" />
+    <Compile Include="RectangleHelper.cs" />
     <Compile Include="States\BaseState.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="Objects\Ladder.cs" />
