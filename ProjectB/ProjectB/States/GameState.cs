@@ -102,33 +102,23 @@ namespace ProjectB.States
 			};
 			cats.Add (cat);
 		}
-
-		private void HandleMovement (GameTime gameTime)
-		{
-
-			/*float x = player.Location.X + gravity.X;
-			float y = player.Location.Y + gravity.Y;
-
-			if (ProjectB.NewKeyboard.IsKeyDown (Keys.D))
-				x += playerSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-			else if (ProjectB.NewKeyboard.IsKeyDown (Keys.A))
-				x -= playerSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-			if (ProjectB.NewKeyboard.IsKeyDown (Keys.W))
-				y -= playerSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-			else if (ProjectB.NewKeyboard.IsKeyDown (Keys.S))
-				y += playerSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-
-			player.Location = new Vector2 (
-				MathHelper.Clamp (x, 0, CurrentLevel.Level.Texture.Width - player.Texture.Width),
-				MathHelper.Clamp (y, 0, CurrentLevel.Level.Texture.Height - player.Texture.Height));*/
-		}
 		
 		private void HandleControls()
 		{
 			if (ProjectB.NewKeyboard.IsKeyDown (Keys.F1) && ProjectB.OldKeyboard.IsKeyUp (Keys.F1))
 				editorModeEnabled = !editorModeEnabled;
+
+			if (!editorModeEnabled && ProjectB.NewMouse.LeftButton == ButtonState.Pressed
+				&& ProjectB.OldMouse.LeftButton == ButtonState.Released)
+			{
+				float offset = 0;
+				if (player.Direction == Directions.Right)
+					offset += player.Texture.Width;
+				else
+					offset += 10;
+
+				SpawnCat (player.Location + new Vector2 (offset, 0), player.Direction);
+			}
 		}
 	}
 }

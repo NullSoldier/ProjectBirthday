@@ -192,6 +192,11 @@ namespace ProjectB
 			// Check if the player wants to jump.
 			isJumping = ProjectB.NewKeyboard.IsKeyDown (Keys.Space)
 				|| ProjectB.NewKeyboard.IsKeyDown (Keys.W);
+
+			if (movement > 0)
+				Direction = Directions.Right;
+			else if (movement < 0)
+				Direction = Directions.Left;
 		}
 	}
 }

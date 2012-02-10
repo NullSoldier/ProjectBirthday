@@ -126,6 +126,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="ProjectB.cs" />
     <Compile Include="States\MenuState.cs" />
+    <Compile Include="TextureHelpers.cs" />
     <Compile Include="VectorHelpers.cs" />
   </ItemGroup>
   <ItemGroup>

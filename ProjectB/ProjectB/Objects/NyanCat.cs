@@ -18,6 +18,9 @@ namespace ProjectB.Objects
 
 			moveDirection = direction;
 			chunks = new Queue<RainbowChunk>();
+
+			if (direction == Directions.Left)
+				catSpeed *= -1;
 		}
 
 		public override void Update (GameTime gameTime)
@@ -65,7 +68,7 @@ namespace ProjectB.Objects
 
 		private Texture2D blankTexture;
 		private float catSpeed = 0.5f;
-		private float trailLife = 0.5f;
+		private float trailLife = 0.25f;
 		private float trailDelay;
 		private float trailPassed;
 		private float catScale = 0.75f;
