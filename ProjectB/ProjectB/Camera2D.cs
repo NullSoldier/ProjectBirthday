@@ -42,6 +42,11 @@ namespace ProjectB
 			updateTransform = true;
 		}
 
+		public Vector2 ScreenToWorld(Vector2 screenVector)
+		{
+			return new Vector2(screenVector.X + Location.X, screenVector.Y + Location.Y);
+		}
+
 		public Vector2 Origin
 		{
 			get { return Location - screenHalf; }

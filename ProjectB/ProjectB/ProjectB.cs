@@ -25,8 +25,10 @@ namespace ProjectB
 		public static ProjectB Project;
 		public static int ScreenWidth = 800;
 		public static int ScreenHeight = 600;
-		public static KeyboardState OldKeyState;
-		public static KeyboardState NewKeyState;
+		public static KeyboardState OldKeyboard;
+		public static KeyboardState NewKeyboard;
+		public static MouseState NewMouse;
+		public static MouseState OldMouse;
 		
 		public BaseLevel CurrentLevel
 		{
@@ -52,6 +54,7 @@ namespace ProjectB
 			graphics.PreferredBackBufferHeight = ScreenHeight;
 			graphics.ApplyChanges();
 
+			IsMouseVisible = true;
 			Content.RootDirectory = "Content";
 		}
 
@@ -93,12 +96,14 @@ namespace ProjectB
 
 		protected override void Update (GameTime gameTime)
 		{
-			NewKeyState = Keyboard.GetState();
+			NewKeyboard = Keyboard.GetState();
+			NewMouse = Mouse.GetState ();
 
 			if (currentState != null)
 				currentState.Update (gameTime);
 
-			OldKeyState = NewKeyState;
+			OldKeyboard = NewKeyboard;
+			OldMouse = NewMouse;
 
 			base.Update(gameTime);
 		}
