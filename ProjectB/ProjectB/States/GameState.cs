@@ -7,9 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ProjectB.Objects;
 
-namespace ProjectB
+namespace ProjectB.States
 {
-	public class GameState
+	public partial class GameState
 		: BaseState
 	{
 		public override void Activate ()
@@ -28,14 +28,21 @@ namespace ProjectB
 			clearColor = new Color(166, 211, 239);
 
 			SpawnPlayer (CurrentLevel.StartPoint);
+
+			EditorLoad();
 		}
 
 		public override void Update (GameTime gameTime)
 		{
 			cloudManager.Update (gameTime);
+
 			HandleMovement (gameTime);
+			HandleControls ();
 
 			camera.CenterOnPoint (player.Location);
+
+			if (editorModeEnabled)
+				EditorUpdate (gameTime);
 		}
 
 		public override void Draw ()
@@ -50,6 +57,9 @@ namespace ProjectB
 			batch.Draw (player.Texture, player.Location, Color.Red);
 
 			batch.End();
+			
+			if (editorModeEnabled)
+				EditorDraw();
 		}
 		
 		private BaseLevel CurrentLevel
@@ -62,6 +72,7 @@ namespace ProjectB
 		private GameObject player;
 		private CloudManager cloudManager;
 		private float playerSpeed = 0.3f;
+		private bool editorModeEnabled = false;
 		private Color clearColor;
 
 		private void SpawnPlayer (Vector2 location)
@@ -73,19 +84,25 @@ namespace ProjectB
 			};
 		}
 
+		private void HandleControls ()
+		{
+			if (ProjectB.NewKeyboard.IsKeyDown (Keys.F1) && ProjectB.OldKeyboard.IsKeyUp (Keys.F1))
+				editorModeEnabled = !editorModeEnabled;
+		}
+
 		private void HandleMovement (GameTime gameTime)
 		{
 			float x = player.Location.X;
 			float y = player.Location.Y;
 
-			if (ProjectB.NewKeyState.IsKeyDown (Keys.D))
+			if (ProjectB.NewKeyboard.IsKeyDown (Keys.D))
 				x += playerSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-			else if (ProjectB.NewKeyState.IsKeyDown (Keys.A))
+			else if (ProjectB.NewKeyboard.IsKeyDown (Keys.A))
 				x -= playerSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-			if (ProjectB.NewKeyState.IsKeyDown (Keys.W))
+			if (ProjectB.NewKeyboard.IsKeyDown (Keys.W))
 				y -= playerSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-			else if (ProjectB.NewKeyState.IsKeyDown (Keys.S))
+			else if (ProjectB.NewKeyboard.IsKeyDown (Keys.S))
 				y += playerSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
 			player.Location = new Vector2(x, y);
