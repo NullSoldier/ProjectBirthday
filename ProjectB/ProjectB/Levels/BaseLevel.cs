@@ -12,6 +12,8 @@ namespace ProjectB
 	{
 		public BaseLevel (string levelTexture)
 		{
+			CollisionGeometry = new List<CollisionGeometry> ();
+
 			Level = new GameObject
 			{
 				Texture = ProjectB.ContentManager.Load<Texture2D> (levelTexture)
@@ -20,5 +22,11 @@ namespace ProjectB
 
 		public GameObject Level;
 		public Vector2 StartPoint;
+		public List<CollisionGeometry> CollisionGeometry;
+
+		protected void AddGeometry (Rectangle rect, CollisionType collisionType)
+		{
+			CollisionGeometry.Add (new CollisionGeometry(rect, collisionType));
+		}
 	}
 }

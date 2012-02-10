@@ -19,7 +19,8 @@ namespace ProjectB.States
 			collisionRectangles = new List<Rectangle>();
 
 			redTransparent = new Color(1f, 0f, 0f, 0.5f);
-			blueTransparent = new Color(0f, 0f, 1f, 0.5f);
+			greenTransparent = new Color(0f, 1f, 0f, 0.5f);
+			blueTransparent = new Color (0f, 0f, 1f, 0.5f);
 		}
 
 		public void EditorUpdate (GameTime gameTime)
@@ -30,16 +31,26 @@ namespace ProjectB.States
 			{
 				if (hasBuffered)
 				{
-					//collisionRectangles.Add (RectangleHelpers.FromVectors (lastClicked, lastMouseLoc));
-					//hasBuffered = false;
+					collisionRectangles.Add (RectangleHelpers.FromVectors (lastClicked, lastMouseLoc));
+					hasBuffered = false;
 				}
 				else
 				{
-					//lastClicked = camera.ScreenToWorld (new Vector2 (ProjectB.NewMouse.X, ProjectB.NewMouse.Y));
-					//hasBuffered = true;
+					lastClicked = camera.ScreenToWorld (new Vector2 (ProjectB.NewMouse.X, ProjectB.NewMouse.Y));
+					hasBuffered = true;
 				}
 
-				SpawnCat (lastMouseLoc, Directions.Right);
+				//SpawnCat (lastMouseLoc, Directions.Right);
+			}
+
+			if (IsRightClicked ())
+			{
+				StringBuilder code = new StringBuilder ();
+
+				foreach (Rectangle rectangle in collisionRectangles)
+					code.AppendFormat ("CollisionGeometry.Add(new Rectangle({0}, {1}, {2}, {3}));{4}", rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, Environment.NewLine);
+
+				Console.Write(code);
 			}
 		}
 
@@ -50,6 +61,9 @@ namespace ProjectB.States
 
 			foreach (Rectangle rect in collisionRectangles)
 				batch.Draw (debugTexture, rect, redTransparent);
+
+			foreach (var geometry in CurrentLevel.CollisionGeometry)
+				batch.Draw (debugTexture, geometry.Rectangle, greenTransparent);
 
 			if (hasBuffered)
 				batch.Draw (debugTexture, RectangleHelpers.FromVectors (lastMouseLoc, lastClicked), blueTransparent);
@@ -70,11 +84,18 @@ namespace ProjectB.States
 		private SpriteFont debugFont;
 		private Color redTransparent;
 		private Color blueTransparent;
+		private Color greenTransparent;
 
-		private bool IsLeftClicked ()
+		private bool IsLeftClicked()
 		{
 			return ProjectB.OldMouse.LeftButton == ButtonState.Released
 				&& ProjectB.NewMouse.LeftButton == ButtonState.Pressed;
+		}
+
+		private bool IsRightClicked()
+		{
+			return ProjectB.OldMouse.RightButton == ButtonState.Released
+				&& ProjectB.NewMouse.RightButton == ButtonState.Pressed;
 		}
 	}
 }

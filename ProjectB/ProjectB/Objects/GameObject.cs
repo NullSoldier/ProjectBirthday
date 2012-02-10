@@ -19,5 +19,10 @@ namespace ProjectB.Objects
 		public virtual void Draw(SpriteBatch spriteBatch)
 		{
 		}
+
+		public virtual Rectangle GetBounds()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

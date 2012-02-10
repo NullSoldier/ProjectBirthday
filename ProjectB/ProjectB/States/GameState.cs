@@ -35,10 +35,10 @@ namespace ProjectB.States
 
 		public override void Update (GameTime gameTime)
 		{
-			cloudManager.Update (gameTime);
-
-			HandleMovement (gameTime);
 			HandleControls ();
+
+			player.Update (gameTime);
+			cloudManager.Update (gameTime);
 
 			foreach (NyanCat cat in cats)
 				cat.Update (gameTime);
@@ -56,9 +56,8 @@ namespace ProjectB.States
 			batch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, camera.Transformation);
 
 			cloudManager.Draw (batch);
-
 			batch.Draw (CurrentLevel.Level.Texture, Vector2.Zero, Color.White);
-			batch.Draw (player.Texture, player.Location, Color.Red);
+			player.Draw (batch);
 
 			foreach (NyanCat cat in cats)
 				cat.Draw (batch);
@@ -76,17 +75,18 @@ namespace ProjectB.States
 
 		private SpriteBatch batch;
 		private Camera camera;
-		private GameObject player;
+		private Player player;
 		private CloudManager cloudManager;
 		private float playerSpeed = 0.3f;
 		private bool editorModeEnabled = false;
 		private Color clearColor;
 		private List<NyanCat> cats;
 		private Texture2D catTexture;
+		private Vector2 gravity = new Vector2(0, 5);
 
 		private void SpawnPlayer (Vector2 location)
 		{
-			player = new GameObject
+			player = new Player
 			{
 				Texture = ProjectB.ContentManager.Load<Texture2D> ("Player"),
 				Location = location
@@ -103,21 +103,11 @@ namespace ProjectB.States
 			cats.Add (cat);
 		}
 
-		private void HandleGravity()
-		{
-
-		}
-
-		private void HandleControls ()
-		{
-			if (ProjectB.NewKeyboard.IsKeyDown (Keys.F1) && ProjectB.OldKeyboard.IsKeyUp (Keys.F1))
-				editorModeEnabled = !editorModeEnabled;
-		}
-
 		private void HandleMovement (GameTime gameTime)
 		{
-			float x = player.Location.X;
-			float y = player.Location.Y;
+
+			/*float x = player.Location.X + gravity.X;
+			float y = player.Location.Y + gravity.Y;
 
 			if (ProjectB.NewKeyboard.IsKeyDown (Keys.D))
 				x += playerSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -129,9 +119,16 @@ namespace ProjectB.States
 			else if (ProjectB.NewKeyboard.IsKeyDown (Keys.S))
 				y += playerSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-			player.Location = new Vector2(
+
+			player.Location = new Vector2 (
 				MathHelper.Clamp (x, 0, CurrentLevel.Level.Texture.Width - player.Texture.Width),
-				MathHelper.Clamp (y, 0, CurrentLevel.Level.Texture.Height - player.Texture.Height));
+				MathHelper.Clamp (y, 0, CurrentLevel.Level.Texture.Height - player.Texture.Height));*/
+		}
+		
+		private void HandleControls()
+		{
+			if (ProjectB.NewKeyboard.IsKeyDown (Keys.F1) && ProjectB.OldKeyboard.IsKeyUp (Keys.F1))
+				editorModeEnabled = !editorModeEnabled;
 		}
 	}
 }

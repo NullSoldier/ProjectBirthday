@@ -15,6 +15,10 @@ namespace ProjectB.Levels
 			: base ("LevelOne")
 		{
 			this.StartPoint = new Vector2(30, 700);
+
+			AddGeometry (new Rectangle (-1, 751, 146, 46), CollisionType.Impassable);
+			AddGeometry (new Rectangle (207, 751, 376, 48), CollisionType.Impassable);
+			AddGeometry (new Rectangle (647, 751, 152, 48), CollisionType.Impassable);
 		}
 	}
 }

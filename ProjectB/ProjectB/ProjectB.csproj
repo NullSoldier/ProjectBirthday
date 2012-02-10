@@ -109,10 +109,13 @@
   <ItemGroup>
     <Compile Include="Camera2D.cs" />
     <Compile Include="CloudManager.cs" />
+    <Compile Include="CollisionGeometry.cs" />
+    <Compile Include="Directions.cs" />
     <Compile Include="Levels\LevelOne.cs" />
     <Compile Include="Objects\NyanCat.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="RandomHelper.cs" />
+    <Compile Include="RectangleExtensions.cs" />
     <Compile Include="RectangleHelper.cs" />
     <Compile Include="States\BaseState.cs" />
     <Compile Include="States\GameState.cs" />
@@ -164,6 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="States\GameState.EditorMode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="States\GameState.Physics.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
