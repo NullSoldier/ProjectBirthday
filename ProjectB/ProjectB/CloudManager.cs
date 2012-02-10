@@ -53,7 +53,7 @@ namespace ProjectB
 			{
 				clouds[i] = new Cloud
 				{
-					Scale = random.Next (2, 4),
+					Scale = random.Next (2, 3),
 					Speed = 0.09f
 				};
 
