@@ -23,10 +23,11 @@ namespace ProjectB.States
 			camera.UseBounds = true;
 
 			cloudManager = new CloudManager (camera.Bounds.Width, camera.Bounds.Height);
+			cats = new List<NyanCat>();
 
 			batch = ProjectB.Batch;
 			clearColor = new Color(166, 211, 239);
-
+			catTexture = ProjectB.ContentManager.Load<Texture2D> ("NyanCat");
 			SpawnPlayer (CurrentLevel.StartPoint);
 
 			EditorLoad();
@@ -38,6 +39,9 @@ namespace ProjectB.States
 
 			HandleMovement (gameTime);
 			HandleControls ();
+
+			foreach (NyanCat cat in cats)
+				cat.Update (gameTime);
 
 			camera.CenterOnPoint (player.Location);
 
@@ -55,6 +59,9 @@ namespace ProjectB.States
 
 			batch.Draw (CurrentLevel.Level.Texture, Vector2.Zero, Color.White);
 			batch.Draw (player.Texture, player.Location, Color.Red);
+
+			foreach (NyanCat cat in cats)
+				cat.Draw (batch);
 
 			batch.End();
 			
@@ -74,6 +81,8 @@ namespace ProjectB.States
 		private float playerSpeed = 0.3f;
 		private bool editorModeEnabled = false;
 		private Color clearColor;
+		private List<NyanCat> cats;
+		private Texture2D catTexture;
 
 		private void SpawnPlayer (Vector2 location)
 		{
@@ -82,6 +91,21 @@ namespace ProjectB.States
 				Texture = ProjectB.ContentManager.Load<Texture2D> ("Player"),
 				Location = location
 			};
+		}
+
+		private void SpawnCat(Vector2 location, Directions direction)
+		{
+			NyanCat cat = new NyanCat (direction)
+			{
+				Texture = catTexture,
+				Location = location
+			};
+			cats.Add (cat);
+		}
+
+		private void HandleGravity()
+		{
+
 		}
 
 		private void HandleControls ()
@@ -105,7 +129,9 @@ namespace ProjectB.States
 			else if (ProjectB.NewKeyboard.IsKeyDown (Keys.S))
 				y += playerSpeed * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-			player.Location = new Vector2(x, y);
+			player.Location = new Vector2(
+				MathHelper.Clamp (x, 0, CurrentLevel.Level.Texture.Width - player.Texture.Width),
+				MathHelper.Clamp (y, 0, CurrentLevel.Level.Texture.Height - player.Texture.Height));
 		}
 	}
 }

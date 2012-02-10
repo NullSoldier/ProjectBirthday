@@ -11,5 +11,13 @@ namespace ProjectB.Objects
 	{
 		public Texture2D Texture;
 		public Vector2 Location;
+
+		public virtual void Update(GameTime gameTime)
+		{
+		}
+
+		public virtual void Draw(SpriteBatch spriteBatch)
+		{
+		}
 	}
 }

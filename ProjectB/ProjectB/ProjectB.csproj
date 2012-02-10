@@ -110,6 +110,8 @@
     <Compile Include="Camera2D.cs" />
     <Compile Include="CloudManager.cs" />
     <Compile Include="Levels\LevelOne.cs" />
+    <Compile Include="Objects\NyanCat.cs" />
+    <Compile Include="Objects\Player.cs" />
     <Compile Include="RandomHelper.cs" />
     <Compile Include="RectangleHelper.cs" />
     <Compile Include="States\BaseState.cs" />

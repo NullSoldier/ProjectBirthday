@@ -26,19 +26,20 @@ namespace ProjectB.States
 		{
 			lastMouseLoc = camera.ScreenToWorld (new Vector2 (ProjectB.NewMouse.X, ProjectB.NewMouse.Y));
 
-			if (!IsLeftClicked ())
-				return;
-
-			if (hasBuffered)
+			if (IsLeftClicked ())
 			{
-				collisionRectangles.Add (RectangleHelpers.FromVectors (lastClicked, lastMouseLoc));
+				if (hasBuffered)
+				{
+					//collisionRectangles.Add (RectangleHelpers.FromVectors (lastClicked, lastMouseLoc));
+					//hasBuffered = false;
+				}
+				else
+				{
+					//lastClicked = camera.ScreenToWorld (new Vector2 (ProjectB.NewMouse.X, ProjectB.NewMouse.Y));
+					//hasBuffered = true;
+				}
 
-				hasBuffered = false;
-			}
-			else
-			{
-				lastClicked = camera.ScreenToWorld (new Vector2 (ProjectB.NewMouse.X, ProjectB.NewMouse.Y));
-				hasBuffered = true;
+				SpawnCat (lastMouseLoc, Directions.Right);
 			}
 		}
 
