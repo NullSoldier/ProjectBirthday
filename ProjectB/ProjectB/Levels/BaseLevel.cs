@@ -16,6 +16,7 @@ namespace ProjectB
 			CollisionGeometry = new List<CollisionGeometry> ();
 			GameObjects = new List<GameObject>();
 			Ladders = new List<Ladder>();
+			Chests = new List<Chest>();
 
 			Level = new GameObject
 			{
@@ -47,6 +48,7 @@ namespace ProjectB
 		public bool UseClouds;
 		public List<CollisionGeometry> CollisionGeometry;
 		public List<Ladder> Ladders;
+		public List<Chest> Chests;
 		public List<GameObject> GameObjects;
 
 		public virtual void Update (GameTime gameTime)
@@ -65,6 +67,13 @@ namespace ProjectB
 		protected void AddLadder (Rectangle rect)
 		{
 			Ladders.Add (new Ladder(rect));
+		}
+
+		protected void AddChest (Vector2 position, Friend friend)
+		{
+			Chest chest = new Chest { Friend = friend, Location = position, Opened = false };
+			Chests.Add (chest);
+			GameObjects.Add (chest);
 		}
 	}
 }

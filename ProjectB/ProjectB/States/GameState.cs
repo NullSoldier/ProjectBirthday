@@ -130,7 +130,7 @@ namespace ProjectB.States
 				EditorDraw();
 		}
 		
-		private BaseLevel CurrentLevel
+		public BaseLevel CurrentLevel
 		{
 			get { return Engine.Project.CurrentLevel; }
 		}
@@ -181,6 +181,18 @@ namespace ProjectB.States
 				SpawnCat (CurrentLevel.Player.Location + new Vector2 (offset, 0), CurrentLevel.Player.Direction);
 				canFireGun = false;
 				gunTimePassed = 0;
+			}
+			if (Engine.NewKeyboard.IsKeyDown (Keys.Z) && Engine.OldKeyboard.IsKeyUp (Keys.Z))
+			{
+				Rectangle playerBounds = CurrentLevel.Player.GetBounds();
+
+				foreach (Chest chest in CurrentLevel.Chests)
+				{
+					if (!chest.GetBounds().Intersects(playerBounds))
+						continue;
+
+					chest.Open (this);
+				}
 			}
 		}
 

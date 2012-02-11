@@ -35,6 +35,8 @@ namespace ProjectB.Levels
 			AddLadder (new Rectangle(452, 518, 25, 231));
 			AddLadder (new Rectangle(124, 164, 22, 373));
 			AddLadder (new Rectangle(480, 173, 25, 183));
+
+			AddChest (new Vector2(657, 476), FriendFactory.GetJason());
 		}
 
 		public override void Update (GameTime gametime)

@@ -79,6 +79,9 @@ namespace ProjectB.States
 			foreach (var cat in cats)
 				batch.Draw (debugTexture, cat.GetBounds(), blueTransparent);
 
+			foreach (var chest in CurrentLevel.Chests)
+				batch.Draw (debugTexture, chest.GetBounds(), blueTransparent);
+
 			batch.Draw (debugTexture, CurrentLevel.Player.GetBounds(), blueTransparent);
 
 			if (hasBuffered)
