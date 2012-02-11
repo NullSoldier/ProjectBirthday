@@ -13,7 +13,7 @@ namespace ProjectB.Objects
 		public NyanCat (Directions direction)
 		{
 			// Create a blank texture to use in rendering the rainbow
-			blankTexture = new Texture2D (ProjectB.Graphics.GraphicsDevice, 1, 1);
+			blankTexture = new Texture2D (Engine.Graphics.GraphicsDevice, 1, 1);
 			blankTexture.SetData (new [] { Color.White });
 
 			moveDirection = direction;

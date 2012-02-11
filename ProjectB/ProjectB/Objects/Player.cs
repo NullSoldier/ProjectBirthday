@@ -27,7 +27,7 @@ namespace ProjectB
 			if (AcceptPhysicalInput)
 				HandleInput ();
 
-			ApplyPhysics (gameTime, ProjectB.Project.CurrentLevel);
+			ApplyPhysics (gameTime, Engine.Project.CurrentLevel);
 
 			movement = 0f;
 			isJumping = false;
@@ -205,14 +205,14 @@ namespace ProjectB
 
 		private void HandleInput()
 		{
-			if (ProjectB.NewKeyboard.IsKeyDown (Keys.A))
+			if (Engine.NewKeyboard.IsKeyDown (Keys.A))
 				movement = -1.0f;
-			else if (ProjectB.NewKeyboard.IsKeyDown (Keys.D))
+			else if (Engine.NewKeyboard.IsKeyDown (Keys.D))
 				movement = 1.0f;
 
 			// Check if the player wants to jump.
-			isJumping = ProjectB.NewKeyboard.IsKeyDown (Keys.Space)
-				|| ProjectB.NewKeyboard.IsKeyDown (Keys.W);
+			isJumping = Engine.NewKeyboard.IsKeyDown (Keys.Space)
+				|| Engine.NewKeyboard.IsKeyDown (Keys.W);
 
 			ResolveDirection();
 		}

@@ -13,8 +13,8 @@ using ProjectB.States;
 
 namespace ProjectB
 {
-	public class
-		ProjectB : Microsoft.Xna.Framework.Game
+	public class Engine
+		: Microsoft.Xna.Framework.Game
 	{
 		public GraphicsDeviceManager graphics;
 		public SpriteBatch spriteBatch;
@@ -22,13 +22,16 @@ namespace ProjectB
 		public static ContentManager ContentManager;
 		public static SpriteBatch Batch;
 		public static GraphicsDeviceManager Graphics;
-		public static ProjectB Project;
+		public static Engine Project;
+		public static DialogRunner DialogRunner;
 		public static int ScreenWidth = 800;
 		public static int ScreenHeight = 600;
-		public static KeyboardState OldKeyboard;
 		public static KeyboardState NewKeyboard;
+		public static KeyboardState OldKeyboard;
 		public static MouseState NewMouse;
 		public static MouseState OldMouse;
+		public static GamePadState NewPad;
+		public static GamePadState OldPad;
 		
 		public BaseLevel CurrentLevel
 		{
@@ -47,7 +50,7 @@ namespace ProjectB
 		private float start;
 		private float end;
 
-		public ProjectB()
+		public Engine()
 		{
 			graphics = new GraphicsDeviceManager(this);
 			graphics.PreferredBackBufferWidth = ScreenWidth;
@@ -60,16 +63,17 @@ namespace ProjectB
 
 		protected override void Initialize()
 		{
-			ProjectB.ContentManager = this.Content;
-			ProjectB.Graphics = this.graphics;
-			ProjectB.Project = this;
+			Engine.ContentManager = this.Content;
+			Engine.Graphics = this.graphics;
+			Engine.Project = this;
+			Engine.DialogRunner = new DialogRunner();
 			
 			base.Initialize();
 		}
 
 		protected override void LoadContent()
 		{
-			ProjectB.Batch = spriteBatch = new SpriteBatch(GraphicsDevice);
+			Engine.Batch = spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			levels = new BaseLevel[]
 			{
@@ -99,12 +103,16 @@ namespace ProjectB
 		{
 			NewKeyboard = Keyboard.GetState();
 			NewMouse = Mouse.GetState ();
+			NewPad = GamePad.GetState (PlayerIndex.One);
+
+			DialogRunner.Update (gameTime);
 
 			if (currentState != null)
 				currentState.Update (gameTime);
 
 			OldKeyboard = NewKeyboard;
 			OldMouse = NewMouse;
+			OldPad = NewPad;
 
 			base.Update(gameTime);
 		}
@@ -113,6 +121,8 @@ namespace ProjectB
 		{
 			if (currentState != null)
 				currentState.Draw();
+
+			DialogRunner.Draw (spriteBatch);
 
 			base.Draw(gameTime);
 		}

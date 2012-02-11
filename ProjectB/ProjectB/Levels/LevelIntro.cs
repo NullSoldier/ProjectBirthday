@@ -38,6 +38,7 @@ namespace ProjectB.Levels
 			}
 			
 			effects.Add ("Player", new CharacterMoveEffect(player, 100, Directions.Right));
+			Engine.DialogRunner.EnqueueMessageBox ("Megan", "Hello World!");
 		}
 
 		public override void Update(GameTime gameTime)

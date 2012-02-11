@@ -12,10 +12,10 @@ namespace ProjectB.States
 	{
 		public void EditorLoad ()
 		{
-			debugTexture = new Texture2D (ProjectB.Graphics.GraphicsDevice, 1, 1);
+			debugTexture = new Texture2D (Engine.Graphics.GraphicsDevice, 1, 1);
 			debugTexture.SetData (new [] { Color.White });
 
-			debugFont = ProjectB.ContentManager.Load<SpriteFont> ("DebugFont");
+			debugFont = Engine.ContentManager.Load<SpriteFont> ("DebugFont");
 			collisionRectangles = new List<Rectangle>();
 
 			redTransparent = new Color(1f, 0f, 0f, 0.5f);
@@ -25,7 +25,7 @@ namespace ProjectB.States
 
 		public void EditorUpdate (GameTime gameTime)
 		{
-			lastMouseLoc = camera.ScreenToWorld (new Vector2 (ProjectB.NewMouse.X, ProjectB.NewMouse.Y));
+			lastMouseLoc = camera.ScreenToWorld (new Vector2 (Engine.NewMouse.X, Engine.NewMouse.Y));
 
 			if (IsLeftClicked ())
 			{
@@ -36,7 +36,7 @@ namespace ProjectB.States
 				}
 				else
 				{
-					lastClicked = camera.ScreenToWorld (new Vector2 (ProjectB.NewMouse.X, ProjectB.NewMouse.Y));
+					lastClicked = camera.ScreenToWorld (new Vector2 (Engine.NewMouse.X, Engine.NewMouse.Y));
 					hasBuffered = true;
 				}
 
@@ -88,14 +88,14 @@ namespace ProjectB.States
 
 		private bool IsLeftClicked()
 		{
-			return ProjectB.OldMouse.LeftButton == ButtonState.Released
-				&& ProjectB.NewMouse.LeftButton == ButtonState.Pressed;
+			return Engine.OldMouse.LeftButton == ButtonState.Released
+				&& Engine.NewMouse.LeftButton == ButtonState.Pressed;
 		}
 
 		private bool IsRightClicked()
 		{
-			return ProjectB.OldMouse.RightButton == ButtonState.Released
-				&& ProjectB.NewMouse.RightButton == ButtonState.Pressed;
+			return Engine.OldMouse.RightButton == ButtonState.Released
+				&& Engine.NewMouse.RightButton == ButtonState.Pressed;
 		}
 	}
 }

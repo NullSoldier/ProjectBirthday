@@ -20,7 +20,7 @@ namespace ProjectB.States
 
 		public override void Load ()
 		{
-			camera = new Camera (ProjectB.ScreenWidth, ProjectB.ScreenHeight);
+			camera = new Camera (Engine.ScreenWidth, Engine.ScreenHeight);
 			camera.Bounds = new Rectangle(0, 0, CurrentLevel.Level.Texture.Width, CurrentLevel.Level.Texture.Height);
 			camera.UseBounds = false;
 
@@ -28,8 +28,8 @@ namespace ProjectB.States
 			effectManager = new EffectManager (this);
 			cats = new List<NyanCat>();
 
-			batch = ProjectB.Batch;
-			catTexture = ProjectB.ContentManager.Load<Texture2D> ("NyanCat");
+			batch = Engine.Batch;
+			catTexture = Engine.ContentManager.Load<Texture2D> ("NyanCat");
 
 			EditorLoad();
 		}
@@ -56,7 +56,7 @@ namespace ProjectB.States
 
 		public override void Draw ()
 		{
-			ProjectB.Graphics.GraphicsDevice.Clear (CurrentLevel.SkyColor);
+			Engine.Graphics.GraphicsDevice.Clear (CurrentLevel.SkyColor);
 
 			batch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, camera.Transformation);
 			
@@ -77,7 +77,7 @@ namespace ProjectB.States
 		
 		private BaseLevel CurrentLevel
 		{
-			get { return ProjectB.Project.CurrentLevel; }
+			get { return Engine.Project.CurrentLevel; }
 		}
 
 		private SpriteBatch batch;
@@ -93,7 +93,7 @@ namespace ProjectB.States
 		{
 			player = new Player
 			{
-				Texture = ProjectB.ContentManager.Load<Texture2D> ("Player"),
+				Texture = Engine.ContentManager.Load<Texture2D> ("Player"),
 				Location = location
 			};
 		}
@@ -110,11 +110,11 @@ namespace ProjectB.States
 		
 		private void HandleControls()
 		{
-			if (ProjectB.NewKeyboard.IsKeyDown (Keys.F1) && ProjectB.OldKeyboard.IsKeyUp (Keys.F1))
+			if (Engine.NewKeyboard.IsKeyDown (Keys.F1) && Engine.OldKeyboard.IsKeyUp (Keys.F1))
 				editorModeEnabled = !editorModeEnabled;
 
-			if (!editorModeEnabled && ProjectB.NewMouse.LeftButton == ButtonState.Pressed
-				&& ProjectB.OldMouse.LeftButton == ButtonState.Released)
+			if (!editorModeEnabled && Engine.NewMouse.LeftButton == ButtonState.Pressed
+				&& Engine.OldMouse.LeftButton == ButtonState.Released)
 			{
 				float offset = 0;
 				if (player.Direction == Directions.Right)

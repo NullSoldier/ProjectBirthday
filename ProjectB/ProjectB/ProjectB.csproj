@@ -110,6 +110,7 @@
     <Compile Include="Camera2D.cs" />
     <Compile Include="CloudManager.cs" />
     <Compile Include="CollisionGeometry.cs" />
+    <Compile Include="DialogRunner.cs" />
     <Compile Include="Directions.cs" />
     <Compile Include="Levels\LevelIntro.cs" />
     <Compile Include="Levels\LevelOne.cs" />
@@ -128,7 +129,7 @@
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ProjectB.cs" />
+    <Compile Include="Engine.cs" />
     <Compile Include="States\MenuState.cs" />
     <Compile Include="TextureHelpers.cs" />
     <Compile Include="VectorHelpers.cs" />

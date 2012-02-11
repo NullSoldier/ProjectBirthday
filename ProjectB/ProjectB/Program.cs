@@ -10,9 +10,9 @@ namespace ProjectB
         /// </summary>
         static void Main(string[] args)
         {
-            using (ProjectB projectB = new ProjectB())
+            using (Engine engine = new Engine())
             {
-                projectB.Run();
+                engine.Run();
             }
         }
     }

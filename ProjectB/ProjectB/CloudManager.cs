@@ -12,7 +12,7 @@ namespace ProjectB
 		public CloudManager (int width, int height)
 		{
 			random = new Random();
-			cloudTexture = ProjectB.ContentManager.Load<Texture2D> ("Cloud");
+			cloudTexture = Engine.ContentManager.Load<Texture2D> ("Cloud");
 			clouds = new Cloud[cloudCount];
 			cloudColor = new Color(1f, 1f, 1f, 0.7f);
 			

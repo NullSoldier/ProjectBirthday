@@ -17,7 +17,7 @@ namespace ProjectB
 
 			Level = new GameObject
 			{
-				Texture = ProjectB.ContentManager.Load<Texture2D> (levelTexture)
+				Texture = Engine.ContentManager.Load<Texture2D> (levelTexture)
 			};
 		}
 

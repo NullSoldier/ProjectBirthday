@@ -20,7 +20,7 @@ namespace ProjectB.States
 
 		public override void Activate ()
 		{
-			ProjectB.Project.SetState ("GameState");
+			Engine.Project.SetState ("GameState");
 		}
 
 		public override void Load ()

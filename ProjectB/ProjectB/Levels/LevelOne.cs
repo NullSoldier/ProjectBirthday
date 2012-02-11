@@ -26,11 +26,21 @@ namespace ProjectB.Levels
 
 		public override void Update (GameTime gametime)
 		{
+			camera.CenterOnPoint (player.Location);
 		}
 
 		public override void Start (GameState gameState)
 		{
 			gameState.SpawnPlayer (StartPoint);
+
+			player = gameState.player;
+			camera = gameState.camera;
+			{
+				camera.UseBounds = true;
+			}
 		}
+
+		private Camera camera;
+		private Player player;
 	}
 }
