@@ -17,6 +17,7 @@ namespace ProjectB.States
 	{
 		public override void Activate ()
 		{
+			transitioning = false;
 			CurrentLevel.Start (this);
 		}
 
@@ -42,6 +43,9 @@ namespace ProjectB.States
 
 		public override void Update (GameTime gameTime)
 		{
+			if (transitioning)
+				return;
+
 			if (!Engine.IgnoreInput)
 				HandleControls ();
 
@@ -113,7 +117,7 @@ namespace ProjectB.States
 
 			batch.Draw (CurrentLevel.Level.Texture, Vector2.Zero, Color.White);
 
-			if (FriendsCaptured >= CurrentLevel.FriendCount)
+			if (FriendsCaptured >= CurrentLevel.FriendCount && CurrentLevel.Exit != null)
 				CurrentLevel.Exit.Draw (batch);
 
 			foreach (GameObject entity in CurrentLevel.GameObjects)
@@ -124,14 +128,17 @@ namespace ProjectB.States
 
 			batch.End();
 
-			batch.Begin (SpriteSortMode.Immediate, BlendState.AlphaBlend);
-			DrawHealthBar (batch);
+			if (CurrentLevel.DisplayInterface)
+			{
+				batch.Begin (SpriteSortMode.Immediate, BlendState.AlphaBlend);
+				DrawHealthBar (batch);
 
-			if (!canFireGun)
-				DrawReloadBar (batch);
+				if (!canFireGun)
+					DrawReloadBar (batch);
 
-			batch.End();
-			
+				batch.End();
+			}
+
 			if (editorModeEnabled)
 				EditorDraw();
 		}
@@ -151,6 +158,7 @@ namespace ProjectB.States
 		private Texture2D catTexture;
 		private Texture2D healthBarTexture;
 		private Texture2D reloadBarTexture;
+		private bool transitioning;
 
 		public void CaptureFriend ()
 		{
@@ -218,8 +226,6 @@ namespace ProjectB.States
 
 		private void HandleEnemyCollision (GameTime gameTime)
 		{
-			return;
-
 			if (!canTakedamage)
 				return;
 
@@ -253,12 +259,16 @@ namespace ProjectB.States
 
 		private void CheckPlayerWin ()
 		{
+			if (CurrentLevel.Player == null || CurrentLevel.Exit == null)
+				return;
+
 			if (FriendsCaptured < CurrentLevel.FriendCount)
 				return;
 
 			if (CurrentLevel.Player.GetBounds().Intersects(CurrentLevel.Exit.GetBounds()))
 			{
 				Engine.Project.NextLevel();
+				transitioning = true;
 			}
 			
 		}

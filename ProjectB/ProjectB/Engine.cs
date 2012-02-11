@@ -35,6 +35,7 @@ namespace ProjectB
 		public static GamePadState OldPad;
 		public static BaseState NextState;
 		public static int NextLevelIndex;
+		public static bool displayTeam;
 
 		public static bool IgnoreInput
 		{
@@ -58,6 +59,8 @@ namespace ProjectB
         private float fadeTimeTotal;
 		private Action fadeAction;
         private Texture2D black;
+		private Texture2D team;
+		private Vector2 teamLocation;
 
 		public Engine()
 		{
@@ -88,9 +91,10 @@ namespace ProjectB
 			levels = new BaseLevel[]
 			{
 				new LevelOne(),
-				new LevelTwo(), 
 				new LevelOne(),
-				new LevelIntro()
+				new LevelTwo(), 
+				new LevelThree(),
+				new LevelOutro(),
 			};
 			levelIndex = 0;
 
@@ -102,6 +106,10 @@ namespace ProjectB
 
 			foreach (BaseState state in states.Values)
 				state.Load();
+
+			team = Content.Load<Texture2D> ("Team");
+			teamLocation = new Vector2((ScreenWidth / 2) - (team.Width / 2),
+				(ScreenHeight/ 2) - (team.Height / 2));
 
 			black = new Texture2D (graphics.GraphicsDevice, 1, 1);
             black.SetData (new [] { Color.Black});
@@ -153,6 +161,7 @@ namespace ProjectB
 
 			DialogRunner.Draw (spriteBatch);
 
+
 			if (fading)
             {
                 float lerpValue = MathHelper.Lerp (fadeStart, fadeEnd, fadeTimePassed / fadeTimeTotal);
@@ -161,6 +170,13 @@ namespace ProjectB
                 spriteBatch.Draw (black, new Rectangle(0, 0, ScreenWidth, ScreenHeight), new Color(255, 255, 255, 255 - (int)lerpValue));
                 spriteBatch.End();
             }
+
+			if (displayTeam)
+			{
+				spriteBatch.Begin();
+				spriteBatch.Draw (team, teamLocation, Color.White);
+				spriteBatch.End();
+			}
 
 			base.Draw(gameTime);
 		}
@@ -193,6 +209,13 @@ namespace ProjectB
 
 				if (fadeAction != null)
 					fadeAction();
+
+				// Super hack
+				if (displayTeam)
+				{
+					fading = true;
+				}
+
             }
         }
 

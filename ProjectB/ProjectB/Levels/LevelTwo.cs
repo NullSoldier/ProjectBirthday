@@ -17,10 +17,11 @@ namespace ProjectB.Levels
 			this.StartPoint = new Vector2(30, 700);
 			this.SkyColor = new Color(166, 211, 239);
 			this.UseClouds = true;
+			this.DisplayInterface = true;
 
 			this.Exit = new CaveExit
 			{
-				Location = new Vector2(780, 687)
+				Location = new Vector2(780, 623)
 			};
 			
 			AddGeometry (new Rectangle (-1, 751, 126, 46), CollisionType.Impassable);

@@ -49,6 +49,7 @@ namespace ProjectB
 			return newSentry;
 		}
 
+		public bool DisplayInterface;
 		public GameObject Level;
 		public Player Player;
 		public int FriendCount;

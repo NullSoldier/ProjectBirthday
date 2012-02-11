@@ -10,21 +10,21 @@ using ProjectB.States;
 
 namespace ProjectB.Levels
 {
-	public class LevelIntro
+	public class LevelOutro
 		: BaseLevel
 	{
-		public LevelIntro ()
+		public LevelOutro ()
 			: base ("LevelIntro")
 		{
 			this.StartPoint = new Vector2(10, 200);
 			this.SkyColor = Color.Transparent;
 			this.UseClouds = false;
+			this.FriendCount = 1;
 
 			AddGeometry (new Rectangle(0, 0, 479, 52), CollisionType.Impassable);
 			AddGeometry (new Rectangle(-1, 211, 482, 31), CollisionType.Impassable);
 			AddGeometry (new Rectangle(-57, -3, 56, 254), CollisionType.Impassable);
 			AddGeometry (new Rectangle(477, 0, 21, 246), CollisionType.Impassable);
-
 		}
 
 		public override void Start (GameState gameState)
@@ -55,28 +55,14 @@ namespace ProjectB.Levels
 			effects.Add ("Character", new CharacterMoveEffect(Player, 100, Directions.Right));
 			effects.Add ("Character", new WaitEffect (2f, () =>
 			{
-			Engine.DialogRunner.EnqueueMessageBox ("Megan", "Why isn't anyone at my party?");
-			Engine.DialogRunner.EnqueueMessageBox ("Megan", "Where is everyone?", () =>
-			{
-			effects.Add ("Character", new CharacterFadeEffect  (boss, 0f, 1f, 1f));
-			effects.Add ("Character", new CharacterMoveEffect (Player, 50, Directions.Left));
-			effects.Add ("Character", new CharacterMoveEffect (Player, 1, Directions.Right, () =>
-			{
-			Engine.DialogRunner.EnqueueMessageBox ("Megusta", "Haha! I am the evil overlord Megusta!");
-			Engine.DialogRunner.EnqueueMessageBox ("Megusta", "I've captured all of your friends! If you\nwant to get them back you'll have to defeat me!", () =>
-			{
-			effects.Add ("Character", new CharacterFadeEffect  (boss, 1f, 0f, 1f));
-			effects.Add ("Character", new WaitEffect (2f, () =>
-			{
-			Engine.DialogRunner.EnqueueMessageBox ("Megan", "I'll save my friends! We'll have my birthday yet!", () =>
-			{
-				effects.Add ("Character", new CharacterMoveEffect (Player, 200, Directions.Right));
-				effects.Add ("Character", new WaitEffect (2f, () => Engine.Project.NextLevel()));
-			});
-			}));
-			});
-			}));
-			});
+				Engine.DialogRunner.EnqueueMessageBox ("Megan", "Yay! Everyone is here!");
+				Engine.DialogRunner.EnqueueMessageBox ("Megan", "Now we can party!", () =>
+				{
+					effects.Add ("Character", new WaitEffect (2f, () =>
+					{
+						Engine.Project.Fade (255, 0, 5f, () => Engine.displayTeam = true);
+					}));
+				});
 			}));
 		}
 

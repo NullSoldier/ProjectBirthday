@@ -117,6 +117,7 @@
     <Compile Include="FriendFactory.cs" />
     <Compile Include="Levels\LevelIntro.cs" />
     <Compile Include="Levels\LevelOne.cs" />
+    <Compile Include="Levels\LevelOutro.cs" />
     <Compile Include="Levels\LevelThree.cs" />
     <Compile Include="Levels\LevelTwo.cs" />
     <Compile Include="Objects\BaseMonster.cs" />

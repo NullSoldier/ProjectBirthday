@@ -15,7 +15,7 @@ namespace ProjectB
 			{
 				Messages = GetDefaultMessages(),
 				ThanksMessage = "Thank you!",
-				Color = Color.Blue
+				Color = getRandomColor()
 			};
 		}
 
@@ -25,6 +25,19 @@ namespace ProjectB
 			{
 				"Help me!"
 			};
+		}
+
+		private static Random random;
+
+		private static Color getRandomColor ()
+		{
+			if (random == null)
+				random = new Random();
+
+			return new Color (
+				random.Next (0, 255),
+				random.Next (0, 255),
+				random.Next (0, 255));
 		}
 	}
 }
