@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ProjectB.Objects;
+using ProjectB.Scripts;
 
 namespace ProjectB.States
 {
@@ -24,6 +25,7 @@ namespace ProjectB.States
 			camera.UseBounds = false;
 
 			cloudManager = new CloudManager (camera.Bounds.Width, camera.Bounds.Height);
+			effectManager = new EffectManager (this);
 			cats = new List<NyanCat>();
 
 			batch = ProjectB.Batch;
@@ -37,17 +39,19 @@ namespace ProjectB.States
 			HandleControls ();
 
 			player.Update (gameTime);
-			
+
+			effectManager.Update (gameTime);
+
 			if (CurrentLevel.UseClouds)
 				cloudManager.Update (gameTime);
 
 			foreach (NyanCat cat in cats)
 				cat.Update (gameTime);
 
-			camera.CenterOnPoint (player.Location);
-
 			if (editorModeEnabled)
 				EditorUpdate (gameTime);
+
+			CurrentLevel.Update (gameTime);
 		}
 
 		public override void Draw ()
@@ -80,6 +84,7 @@ namespace ProjectB.States
 		public Camera camera;
 		public Player player;
 		private CloudManager cloudManager;
+		public EffectManager effectManager;
 		private bool editorModeEnabled = false;
 		private List<NyanCat> cats;
 		private Texture2D catTexture;

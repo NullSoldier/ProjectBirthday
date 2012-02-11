@@ -120,6 +120,7 @@
     <Compile Include="RectangleHelper.cs" />
     <Compile Include="Scripts\BaseEffect.cs" />
     <Compile Include="Scripts\CharacterMoveEffect.cs" />
+    <Compile Include="Scripts\EffectManager.cs" />
     <Compile Include="States\BaseState.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="Objects\Ladder.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using ProjectB.Scripts;
 using ProjectB.States;
 
 namespace ProjectB.Levels
@@ -13,7 +14,7 @@ namespace ProjectB.Levels
 		public LevelIntro ()
 			: base ("LevelIntro")
 		{
-			this.StartPoint = new Vector2(100, 100);
+			this.StartPoint = new Vector2(10, 150);
 			this.SkyColor = Color.Gray;
 			this.UseClouds = false;
 
@@ -26,6 +27,26 @@ namespace ProjectB.Levels
 		public override void Start (GameState gameState)
 		{
 			gameState.SpawnPlayer (StartPoint);
+
+			player = gameState.player;
+			effects = gameState.effectManager;
+			camera = gameState.camera;
+			{
+				camera.UseBounds = false;
+				camera.Scale =  1.8f;
+				camera.CenterOnPoint (240, 122);
+			}
+			
+			effects.Add ("Player", new CharacterMoveEffect(player, 100, Directions.Right));
 		}
+
+		public override void Update(GameTime gameTime)
+		{
+			
+		}
+
+		private Camera camera;
+		private EffectManager effects;
+		private Player player;
 	}
 }

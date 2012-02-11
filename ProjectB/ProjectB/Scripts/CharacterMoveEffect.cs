@@ -10,9 +10,11 @@ namespace ProjectB.Scripts
 	public class CharacterMoveEffect
 		: BaseEffect
 	{
-		public CharacterMoveEffect (Player player, float distance, Directions direction, Action action)
+		public CharacterMoveEffect (Player player, float distance, Directions direction, Action action = null)
 			: base (action)
 		{
+			this.distance = distance;
+			this.direction = direction;
 			this.player = player;
 		}
 
