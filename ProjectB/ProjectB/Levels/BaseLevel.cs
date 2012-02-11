@@ -14,6 +14,8 @@ namespace ProjectB
 		public BaseLevel (string levelTexture)
 		{
 			CollisionGeometry = new List<CollisionGeometry> ();
+			GameObjects = new List<GameObject>();
+			Ladders = new List<Ladder>();
 
 			Level = new GameObject
 			{
@@ -21,11 +23,23 @@ namespace ProjectB
 			};
 		}
 
+		public void SpawnPlayer (Vector2 location)
+		{
+			Player = new Player
+			{
+				Location = location
+			};
+			Player.Reset();
+		}
+
 		public GameObject Level;
+		public Player Player;
 		public Vector2 StartPoint;
 		public Color SkyColor;
 		public bool UseClouds;
 		public List<CollisionGeometry> CollisionGeometry;
+		public List<Ladder> Ladders;
+		public List<GameObject> GameObjects;
 
 		public virtual void Update (GameTime gameTime)
 		{
@@ -38,6 +52,11 @@ namespace ProjectB
 		protected void AddGeometry (Rectangle rect, CollisionType collisionType)
 		{
 			CollisionGeometry.Add (new CollisionGeometry(rect, collisionType));
+		}
+
+		protected void AddLadder (Rectangle rect)
+		{
+			Ladders.Add (new Ladder(rect));
 		}
 	}
 }

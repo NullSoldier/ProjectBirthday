@@ -23,7 +23,8 @@ namespace ProjectB
 
 			characters = new Dictionary<string, Texture2D>
 			{
-				{"Megan", Engine.ContentManager.Load<Texture2D> ("MeganOverlay")}
+				{"Megan", Engine.ContentManager.Load<Texture2D> ("MeganOverlay")},
+				{"Megusta", Engine.ContentManager.Load<Texture2D> ("MegustaOverlay")}
 			};
         }
 

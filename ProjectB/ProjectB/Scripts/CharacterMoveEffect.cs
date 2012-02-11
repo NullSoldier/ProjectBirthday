@@ -10,33 +10,33 @@ namespace ProjectB.Scripts
 	public class CharacterMoveEffect
 		: BaseEffect
 	{
-		public CharacterMoveEffect (Player player, float distance, Directions direction, Action action = null)
+		public CharacterMoveEffect (Character character, float distance, Directions direction, Action action = null)
 			: base (action)
 		{
 			this.distance = distance;
 			this.direction = direction;
-			this.player = player;
+			this.character = character;
 		}
 
 		public override void Update (GameTime gameTime)
 		{
-			 player.PerformAction (charAction);
+			 this.character.PerformAction (charAction);
 
-			if (Math.Abs(player.Location.X - baseAmount) > distance)
+			if (Math.Abs(this.character.Location.X - baseAmount) > distance)
 			{
 				Finish();
-				player.AcceptPhysicalInput = false;
+				this.character.AcceptPhysicalInput = false;
 			}	
 		}
 
 		public override void Start (GameState gameState)
 		{
-			player.AcceptPhysicalInput = false;
-			baseAmount = player.Location.X;
+			this.character.AcceptPhysicalInput = false;
+			baseAmount = this.character.Location.X;
 			charAction = direction == Directions.Left ? CharacterAction.MoveLeft : CharacterAction.MoveRight;
 		}
 
-		private Player player;
+		private Character character;
 		private float baseAmount;
 		private float distance;
 		private CharacterAction charAction;

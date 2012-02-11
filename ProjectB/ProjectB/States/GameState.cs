@@ -21,9 +21,6 @@ namespace ProjectB.States
 		public override void Load ()
 		{
 			camera = new Camera (Engine.ScreenWidth, Engine.ScreenHeight);
-			camera.Bounds = new Rectangle(0, 0, CurrentLevel.Level.Texture.Width, CurrentLevel.Level.Texture.Height);
-			camera.UseBounds = false;
-
 			cloudManager = new CloudManager (camera.Bounds.Width, camera.Bounds.Height);
 			effectManager = new EffectManager (this);
 			cats = new List<NyanCat>();
@@ -38,7 +35,8 @@ namespace ProjectB.States
 		{
 			HandleControls ();
 
-			player.Update (gameTime);
+			foreach (GameObject entity in CurrentLevel.GameObjects)
+				entity.Update (gameTime);
 
 			effectManager.Update (gameTime);
 
@@ -64,7 +62,9 @@ namespace ProjectB.States
 				cloudManager.Draw (batch);
 
 			batch.Draw (CurrentLevel.Level.Texture, Vector2.Zero, Color.White);
-			player.Draw (batch);
+			
+			foreach (GameObject entity in CurrentLevel.GameObjects)
+				entity.Draw (batch);
 
 			foreach (NyanCat cat in cats)
 				cat.Draw (batch);
@@ -82,21 +82,11 @@ namespace ProjectB.States
 
 		private SpriteBatch batch;
 		public Camera camera;
-		public Player player;
 		private CloudManager cloudManager;
 		public EffectManager effectManager;
 		private bool editorModeEnabled = false;
 		private List<NyanCat> cats;
 		private Texture2D catTexture;
-
-		public void SpawnPlayer (Vector2 location)
-		{
-			player = new Player
-			{
-				Texture = Engine.ContentManager.Load<Texture2D> ("Player"),
-				Location = location
-			};
-		}
 
 		public void SpawnCat(Vector2 location, Directions direction)
 		{
@@ -117,12 +107,13 @@ namespace ProjectB.States
 				&& Engine.OldMouse.LeftButton == ButtonState.Released)
 			{
 				float offset = 0;
-				if (player.Direction == Directions.Right)
-					offset += player.Texture.Width;
+				if (CurrentLevel.Player.Direction == Directions.Left)
+					offset -= 30;
 				else
-					offset += 10;
+					offset += 20;
+				
 
-				SpawnCat (player.Location + new Vector2 (offset, 0), player.Direction);
+				SpawnCat (CurrentLevel.Player.Location + new Vector2 (offset, 0), CurrentLevel.Player.Direction);
 			}
 		}
 	}

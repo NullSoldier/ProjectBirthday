@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ProjectB.Objects;
 using ProjectB.Scripts;
 using ProjectB.States;
 
@@ -26,9 +28,8 @@ namespace ProjectB.Levels
 
 		public override void Start (GameState gameState)
 		{
-			gameState.SpawnPlayer (StartPoint);
+			SpawnPlayer (StartPoint);
 
-			player = gameState.player;
 			effects = gameState.effectManager;
 			camera = gameState.camera;
 			{
@@ -37,8 +38,42 @@ namespace ProjectB.Levels
 				camera.CenterOnPoint (240, 122);
 			}
 			
-			effects.Add ("Player", new CharacterMoveEffect(player, 100, Directions.Right));
-			Engine.DialogRunner.EnqueueMessageBox ("Megan", "Hello World!");
+			boss = new Boss
+			{
+				Texture = Engine.ContentManager.Load<Texture2D> ("Boss"),
+				Location = new Vector2(350, 80),
+				Alpha = 0f,
+				AcceptPhysicalInput = false
+			};
+
+			effects.Add ("Character", new CharacterMoveEffect(Player, 100, Directions.Right));
+			effects.Add ("Character", new WaitEffect (2f, () =>
+			{
+			Engine.DialogRunner.EnqueueMessageBox ("Megan", "Why isn't anyone at my party?");
+			Engine.DialogRunner.EnqueueMessageBox ("Megan", "Where is everyone?", () =>
+			{
+			effects.Add ("Character", new CharcterFadeEffect  (boss, 0f, 1f, 1f));
+			effects.Add ("Character", new CharacterMoveEffect (Player, 50, Directions.Left, () =>
+			{
+			Engine.DialogRunner.EnqueueMessageBox ("Megusta", "Haha! I am the evil overlord Megusta!");
+			Engine.DialogRunner.EnqueueMessageBox ("Megusta", "I've captured all of your friends!\nIf you want to get them back you'll have to defeat me!", () =>
+			{
+			effects.Add ("Character", new CharcterFadeEffect  (boss, 1f, 0f, 1f));
+			effects.Add ("Character", new WaitEffect (2f, () =>
+			{
+			Engine.DialogRunner.EnqueueMessageBox ("Megan", "I'll save my friends! We'll have my birthday yet!", () =>
+			{
+				effects.Add ("Character", new CharacterMoveEffect (Player, 200, Directions.Right));
+				effects.Add ("Character", new WaitEffect (2f, () => Engine.Project.NextLevel()));
+			});
+			}));
+			});
+			}));
+			});
+			}));
+
+			GameObjects.Add (Player);
+			GameObjects.Add (boss);
 		}
 
 		public override void Update(GameTime gameTime)
@@ -48,6 +83,6 @@ namespace ProjectB.Levels
 
 		private Camera camera;
 		private EffectManager effects;
-		private Player player;
+		private Character boss;
 	}
 }

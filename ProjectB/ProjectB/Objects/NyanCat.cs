@@ -21,6 +21,10 @@ namespace ProjectB.Objects
 
 			if (direction == Directions.Left)
 				catSpeed *= -1;
+
+			moveAnimation = new Animation  (Engine.ContentManager.Load<Texture2D> ("NyanCat"), 0.1f, true);
+			sprite = new AnimationPlayer();
+			sprite.PlayAnimation (moveAnimation);
 		}
 
 		public override void Update (GameTime gameTime)
@@ -53,25 +57,34 @@ namespace ProjectB.Objects
 			// Look to kill off the last chunk
 			if (chunks.Peek().Life <= 0)
 				chunks.Dequeue ();
+
+			lastGametime = gameTime;
 		}
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
+			if (lastGametime == null)
+				return;
+
 			if (!initialized)
 				Initialize();
 
 			foreach (RainbowChunk chunk in chunks)
 				chunk.Draw (spriteBatch);
 
-			spriteBatch.Draw (Texture, Location + new Vector2 (0, 23 * catScale), null, Color.White, 0f, origin, catScale, effects, 1f);
+			sprite.Draw (lastGametime, spriteBatch, Location, effects, Color.White, catScale);
+			//spriteBatch.Draw (Texture, Location + new Vector2 (0, 23 * catScale), null, Color.White, 0f, origin, catScale, effects, 1f);
 		}
 
+		private AnimationPlayer sprite;
+		private Animation moveAnimation;
+		private GameTime lastGametime;
 		private Texture2D blankTexture;
 		private float catSpeed = 0.5f;
 		private float trailLife = 0.25f;
 		private float trailDelay;
 		private float trailPassed;
-		private float catScale = 0.75f;
+		private float catScale = 0.25f;
 		private float chunkWidth = 10f;
 		private float chunkHeight;
 		private Directions moveDirection;
@@ -103,7 +116,7 @@ namespace ProjectB.Objects
 				Life = this.trailLife,
 				Width = this.chunkWidth,
 				Height = this.chunkHeight,
-				Location = this.Location + trailOffset,
+				Location = this.Location + trailOffset + new Vector2(0, -42),
 				Texture = this.blankTexture
 			};
 			chunk.Initialize();

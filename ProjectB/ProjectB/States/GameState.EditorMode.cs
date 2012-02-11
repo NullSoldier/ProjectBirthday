@@ -48,7 +48,7 @@ namespace ProjectB.States
 				StringBuilder code = new StringBuilder ();
 
 				foreach (Rectangle rectangle in collisionRectangles)
-					code.AppendFormat ("CollisionGeometry.Add(new Rectangle({0}, {1}, {2}, {3}));{4}", rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, Environment.NewLine);
+					code.AppendFormat ("AddGeometry (new Rectangle({0}, {1}, {2}, {3}), CollisionTypes.Impassable);{4}", rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, Environment.NewLine);
 
 				Console.Write(code);
 			}
