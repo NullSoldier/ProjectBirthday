@@ -29,5 +29,13 @@ namespace ProjectB
 		{
 			return new Rectangle((int)self.X, (int)self.Y, width, height);
 		}
+
+		public static Rectangle Shrink (this Rectangle self, int x, int y)
+		{
+			int newX = self.X + (x / 2);
+			int newY = self.Y + (y / 2);
+
+			return new Rectangle (newX, newY, x / 2, y / 2);
+		}
 	}
 }

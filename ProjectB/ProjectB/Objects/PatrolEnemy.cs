@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace ProjectB.Objects
 {
 	public class PatrolEnemy
-		: GameObject
+		: BaseMonster
 	{
 		public PatrolEnemy (Vector2 location, Directions defaultDirection, float maxLeft, float maxRight)
 		{
@@ -22,6 +22,12 @@ namespace ProjectB.Objects
 
 			moveAnimation = new Animation (Engine.ContentManager.Load<Texture2D> ("Player/Move"), 0.1f, true);
 			Sprite.PlayAnimation (moveAnimation);
+
+			HealthBarWidth = moveAnimation.FrameWidth * 0.80f;
+			HealthBarPosition = new Vector2((-moveAnimation.FrameWidth / 2) + 5, -moveAnimation.FrameHeight - 10);
+
+			Health = 100;
+			MaxHealth = 100;
 		}
 
 		public override void Update(GameTime gameTime)
@@ -46,6 +52,8 @@ namespace ProjectB.Objects
 				return;
 
 			Sprite.Draw (lastGameTime, spriteBatch, Location, flip, Color.White);
+
+			base.Draw (spriteBatch);
 		}
 		
 		private GameTime lastGameTime;

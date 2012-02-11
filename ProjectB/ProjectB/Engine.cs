@@ -24,6 +24,7 @@ namespace ProjectB
 		public static GraphicsDeviceManager Graphics;
 		public static Engine Project;
 		public static DialogRunner DialogRunner;
+		public static Texture2D BlankTexture;
 		public static int ScreenWidth = 800;
 		public static int ScreenHeight = 600;
 		public static KeyboardState NewKeyboard;
@@ -102,6 +103,9 @@ namespace ProjectB
 
 			black = new Texture2D (graphics.GraphicsDevice, 1, 1);
             black.SetData (new [] { Color.Black});
+			
+			BlankTexture = new Texture2D (graphics.GraphicsDevice, 1, 1);
+            BlankTexture.SetData (new [] { Color.White});;
 
 			this.CurrentState = states["MenuState"];
 			this.CurrentState.Activate();

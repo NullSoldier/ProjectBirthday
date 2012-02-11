@@ -116,6 +116,7 @@
     <Compile Include="Directions.cs" />
     <Compile Include="Levels\LevelIntro.cs" />
     <Compile Include="Levels\LevelOne.cs" />
+    <Compile Include="Objects\BaseMonster.cs" />
     <Compile Include="Objects\Boss.cs" />
     <Compile Include="Objects\NyanCat.cs" />
     <Compile Include="Objects\Character.cs" />
