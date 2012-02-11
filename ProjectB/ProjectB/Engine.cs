@@ -87,8 +87,10 @@ namespace ProjectB
 
 			levels = new BaseLevel[]
 			{
-				new LevelOne(), 
-				new LevelOne()
+				new LevelOne(),
+				new LevelTwo(), 
+				new LevelOne(),
+				new LevelIntro()
 			};
 			levelIndex = 0;
 

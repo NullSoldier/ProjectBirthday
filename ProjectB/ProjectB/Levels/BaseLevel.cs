@@ -41,9 +41,19 @@ namespace ProjectB
 			return newWalker;
 		}
 
+		public SentryEnemy SpawnSentry (Vector2 location, Directions direction, float fireSpeed)
+		{
+			var newSentry = new SentryEnemy (location, direction, fireSpeed);
+			GameObjects.Add (newSentry);
+
+			return newSentry;
+		}
+
 		public GameObject Level;
 		public Player Player;
+		public int FriendCount;
 		public Vector2 StartPoint;
+		public CaveExit Exit;
 		public Color SkyColor;
 		public bool UseClouds;
 		public List<CollisionGeometry> CollisionGeometry;

@@ -4,16 +4,19 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ProjectB.Scripts;
 using ProjectB.States;
 
 namespace ProjectB.Objects
 {
 	public class Chest
-		: GameObject
+		: Character
 	{
 		public Chest ()
 		{
 			Texture = Engine.ContentManager.Load<Texture2D> ("ChestClosed");
+			AcceptPhysicalInput = false;
+			IsActive = true;
 		}
 
 		public Friend Friend;
@@ -22,7 +25,7 @@ namespace ProjectB.Objects
 		public override void Draw (SpriteBatch spriteBatch)
 		{
 			if (!Opened)
-				spriteBatch.Draw (Texture, Location, Color.White);
+				spriteBatch.Draw (Texture, Location, drawColor);
 		}
 
 		public override Rectangle GetBounds()
@@ -32,10 +35,14 @@ namespace ProjectB.Objects
 
 		public void Open (GameState gameState)
 		{
+			Friend.Spawn (gameState);
 			Friend.IsActive = true;
 			Friend.Location = this.Location;
 
 			gameState.CurrentLevel.GameObjects.Add (Friend);
+
+			gameState.effectManager.Add ("Chest", new CharacterFadeEffect (this, 1f, 0f, 1f,
+				() => this.IsActive = false));
 		}
 	}
 }

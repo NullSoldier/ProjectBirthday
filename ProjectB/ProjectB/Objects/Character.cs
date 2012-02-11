@@ -131,7 +131,7 @@ namespace ProjectB
 		private float jumpTime;
 		private float movement;
 		private float climbMovement;
-		private Color drawColor = Color.White;
+		public Color drawColor = Color.White;
 		private GameTime lastGametime;
 
 		// Constants for controling horizontal movement

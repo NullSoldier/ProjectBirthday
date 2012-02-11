@@ -58,13 +58,13 @@ namespace ProjectB.Levels
 			Engine.DialogRunner.EnqueueMessageBox ("Megan", "Why isn't anyone at my party?");
 			Engine.DialogRunner.EnqueueMessageBox ("Megan", "Where is everyone?", () =>
 			{
-			effects.Add ("Character", new CharcterFadeEffect  (boss, 0f, 1f, 1f));
+			effects.Add ("Character", new CharacterFadeEffect  (boss, 0f, 1f, 1f));
 			effects.Add ("Character", new CharacterMoveEffect (Player, 50, Directions.Left, () =>
 			{
 			Engine.DialogRunner.EnqueueMessageBox ("Megusta", "Haha! I am the evil overlord Megusta!");
 			Engine.DialogRunner.EnqueueMessageBox ("Megusta", "I've captured all of your friends!\nIf you want to get them back you'll have to defeat me!", () =>
 			{
-			effects.Add ("Character", new CharcterFadeEffect  (boss, 1f, 0f, 1f));
+			effects.Add ("Character", new CharacterFadeEffect  (boss, 1f, 0f, 1f));
 			effects.Add ("Character", new WaitEffect (2f, () =>
 			{
 			Engine.DialogRunner.EnqueueMessageBox ("Megan", "I'll save my friends! We'll have my birthday yet!", () =>

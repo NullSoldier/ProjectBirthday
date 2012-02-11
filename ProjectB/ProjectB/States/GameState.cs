@@ -28,6 +28,8 @@ namespace ProjectB.States
 
 			batch = Engine.Batch;
 			catTexture = Engine.ContentManager.Load<Texture2D> ("NyanCat");
+			healthBarTexture = Engine.ContentManager.Load<Texture2D> ("HealthBar");
+			reloadBarTexture = Engine.ContentManager.Load<Texture2D> ("ReloadBar");
 			nyanSoundEffect = Engine.ContentManager.Load<SoundEffect> ("Sound/Nyan");
 			
 			nyanInstance = nyanSoundEffect.CreateInstance();
@@ -64,6 +66,7 @@ namespace ProjectB.States
 					CurrentLevel.GameObjects.Remove (entity);
 
 			CheckPlayerDeath();
+			CheckPlayerWin();
 
 			// Fade Nyan sound
 			if (!isNyanFading)
@@ -110,6 +113,9 @@ namespace ProjectB.States
 
 			batch.Draw (CurrentLevel.Level.Texture, Vector2.Zero, Color.White);
 
+			if (FriendsCaptured >= CurrentLevel.FriendCount)
+				CurrentLevel.Exit.Draw (batch);
+
 			foreach (GameObject entity in CurrentLevel.GameObjects)
 				entity.Draw (batch);
 
@@ -118,7 +124,7 @@ namespace ProjectB.States
 
 			batch.End();
 
-			batch.Begin();
+			batch.Begin (SpriteSortMode.Immediate, BlendState.AlphaBlend);
 			DrawHealthBar (batch);
 
 			if (!canFireGun)
@@ -141,7 +147,18 @@ namespace ProjectB.States
 		public EffectManager effectManager;
 		private bool editorModeEnabled = false;
 		public List<NyanCat> cats;
+		public int FriendsCaptured;
 		private Texture2D catTexture;
+		private Texture2D healthBarTexture;
+		private Texture2D reloadBarTexture;
+
+		public void CaptureFriend ()
+		{
+			FriendsCaptured++;
+
+			if (FriendsCaptured >= CurrentLevel.FriendCount)
+				CurrentLevel.Exit.IsActive = true;
+		}
 
 		public void SpawnCat(Vector2 location, Directions direction)
 		{
@@ -188,6 +205,9 @@ namespace ProjectB.States
 
 				foreach (Chest chest in CurrentLevel.Chests)
 				{
+					if (!chest.IsActive)
+						continue;
+
 					if (!chest.GetBounds().Intersects(playerBounds))
 						continue;
 
@@ -198,6 +218,8 @@ namespace ProjectB.States
 
 		private void HandleEnemyCollision (GameTime gameTime)
 		{
+			return;
+
 			if (!canTakedamage)
 				return;
 
@@ -227,6 +249,18 @@ namespace ProjectB.States
 			CurrentLevel.Player.Location = CurrentLevel.StartPoint;
 			CurrentLevel.Player.Health = CurrentLevel.Player.MaxHealth;
 			CurrentLevel.Player.Reset();
+		}
+
+		private void CheckPlayerWin ()
+		{
+			if (FriendsCaptured < CurrentLevel.FriendCount)
+				return;
+
+			if (CurrentLevel.Player.GetBounds().Intersects(CurrentLevel.Exit.GetBounds()))
+			{
+				Engine.Project.NextLevel();
+			}
+			
 		}
 
 		private void HandleNyanCats (GameTime gameTime)
@@ -276,7 +310,8 @@ namespace ProjectB.States
 		private SoundEffect nyanSoundEffect;
 		private SoundEffectInstance nyanInstance;
 		private int HealthBarWidth = 300;
-		private int HealthBarHeight = 20;
+		private int HealthBarHeight = 40;
+		private int ReloadBarHeight = 35;
 		private int NyanDamage = 30;
 		private bool canFireGun = true;
 		private bool canTakedamage = true;
@@ -297,33 +332,23 @@ namespace ProjectB.States
 			float percentage = (float)player.Health / (float)player.MaxHealth;
 
 			Rectangle destRectangle = new Rectangle (10, 10, HealthBarWidth, HealthBarHeight);
-			Rectangle healthRectangle = new Rectangle (destRectangle.X, destRectangle.Y,
-				(int)(destRectangle.Width  * percentage), destRectangle.Height);
+			Rectangle healthRectangle = new Rectangle (destRectangle.X + 2, destRectangle.Y,
+				(int)(destRectangle.Width * percentage) - 4, destRectangle.Height);
 
-			spriteBatch.Draw (Engine.BlankTexture, destRectangle, null, Color.DarkGray);
 			spriteBatch.Draw (Engine.BlankTexture, healthRectangle, null, Color.Red);
+			spriteBatch.Draw (healthBarTexture, destRectangle, null, Color.White);
 		}
 
 		private void DrawReloadBar (SpriteBatch spriteBatch)
 		{
 			float percentage = gunTimePassed / gunTimeTotal;
 
-			Rectangle destRectangle = new Rectangle (10, Engine.ScreenHeight - HealthBarHeight - 10, Engine.ScreenWidth - 20, HealthBarHeight);
-			Rectangle reloadRectangle = new Rectangle (destRectangle.X, destRectangle.Y,
-				(int)(destRectangle.Width  * percentage), destRectangle.Height);
+			Rectangle destRectangle = new Rectangle (10, Engine.ScreenHeight - HealthBarHeight - 10, Engine.ScreenWidth - 20, ReloadBarHeight);
+			Rectangle reloadRectangle = new Rectangle (destRectangle.X + 2, destRectangle.Y,
+				(int)(destRectangle.Width  * percentage) - 4, destRectangle.Height);
 
-			spriteBatch.Draw (Engine.BlankTexture, destRectangle, null, Color.DarkGray);
 			spriteBatch.Draw (Engine.BlankTexture, reloadRectangle, null, Color.Purple);
-		}
-
-		private void DamagedTimerDone (object state)
-		{
-			canTakedamage = true;
-		}
-
-		private void NyanFireTimerDone (object state)
-		{
-			canFireGun = true;
+			spriteBatch.Draw (reloadBarTexture, destRectangle, null, Color.White);
 		}
 	}
 }

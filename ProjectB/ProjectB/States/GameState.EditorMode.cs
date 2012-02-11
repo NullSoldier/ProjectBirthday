@@ -49,10 +49,10 @@ namespace ProjectB.States
 
 			if (IsMiddleClicked ())
 			{
-				StringBuilder code = new StringBuilder ();
+				StringBuilder code = new StringBuilder (Environment.NewLine);
 
 				foreach (Rectangle rectangle in collisionRectangles)
-					code.AppendFormat ("AddGeometry (new Rectangle({0}, {1}, {2}, {3}), CollisionTypes.Impassable);{4}", rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, Environment.NewLine);
+					code.AppendFormat ("AddGeometry (new Rectangle({0}, {1}, {2}, {3}), CollisionType.Impassable);{4}", rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, Environment.NewLine);
 
 				Console.Write(code);
 			}
@@ -83,6 +83,7 @@ namespace ProjectB.States
 				batch.Draw (debugTexture, chest.GetBounds(), blueTransparent);
 
 			batch.Draw (debugTexture, CurrentLevel.Player.GetBounds(), blueTransparent);
+			batch.Draw (debugTexture, CurrentLevel.Exit.GetBounds(), blueTransparent);
 
 			if (hasBuffered)
 				batch.Draw (debugTexture, RectangleHelpers.FromVectors (lastMouseLoc, lastClicked), blueTransparent);

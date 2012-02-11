@@ -8,10 +8,10 @@ using ProjectB.States;
 
 namespace ProjectB.Scripts
 {
-	public class CharcterFadeEffect
+	public class CharacterFadeEffect
 		: BaseEffect
 	{
-		public CharcterFadeEffect (Character character, float start, float end, float time, Action action = null)
+		public CharacterFadeEffect (Character character, float start, float end, float time, Action action = null)
 			: base (action)
 		{
 			this.startFade = start;

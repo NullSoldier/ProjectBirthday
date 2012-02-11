@@ -14,6 +14,7 @@ namespace ProjectB
 			return new Friend
 			{
 				Messages = GetDefaultMessages(),
+				ThanksMessage = "Thank you!",
 				Color = Color.Blue
 			};
 		}

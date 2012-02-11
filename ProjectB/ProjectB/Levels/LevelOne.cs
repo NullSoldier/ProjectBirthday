@@ -19,6 +19,11 @@ namespace ProjectB.Levels
 			this.SkyColor = new Color(166, 211, 239);
 			this.UseClouds = true;
 
+			this.Exit = new CaveExit
+			{
+				Location = new Vector2(700, 687)
+			};
+
 			AddGeometry (new Rectangle (-1, 751, 146, 46), CollisionType.Impassable);
 			AddGeometry (new Rectangle (207, 751, 376, 48), CollisionType.Impassable);
 			AddGeometry (new Rectangle (647, 751, 152, 48), CollisionType.Impassable);
@@ -37,6 +42,8 @@ namespace ProjectB.Levels
 			AddLadder (new Rectangle(480, 173, 25, 183));
 
 			AddChest (new Vector2(657, 476), FriendFactory.GetJason());
+
+			FriendCount = 1;
 		}
 
 		public override void Update (GameTime gametime)
