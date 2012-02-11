@@ -56,6 +56,11 @@ namespace ProjectB.Levels
 			gameState.cloudManager = new CloudManager (camera.Bounds.Width, camera.Bounds.Height);
 
 			GameObjects.Add (Player);
+
+			SpawnWalker (new Vector2(426, 750), Directions.Left, 200f, 150f);
+			SpawnWalker (new Vector2(150, 539), Directions.Left, 125f, 150f);
+			SpawnWalker (new Vector2(605, 539), Directions.Right, 200f, 160f);
+			SpawnWalker (new Vector2(593, 357), Directions.Right, 100f, 100f);
 		}
 
 		private Camera camera;

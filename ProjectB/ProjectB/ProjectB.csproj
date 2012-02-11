@@ -119,6 +119,7 @@
     <Compile Include="Objects\Boss.cs" />
     <Compile Include="Objects\NyanCat.cs" />
     <Compile Include="Objects\Character.cs" />
+    <Compile Include="Objects\PatrolEnemy.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="RandomHelper.cs" />
     <Compile Include="RectangleExtensions.cs" />

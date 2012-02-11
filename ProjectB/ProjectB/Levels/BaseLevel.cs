@@ -32,6 +32,11 @@ namespace ProjectB
 			Player.Reset();
 		}
 
+		public void SpawnWalker (Vector2 location, Directions direction, float maxLeft, float maxRight)
+		{
+			GameObjects.Add (new PatrolEnemy (location, direction, maxLeft, maxRight));
+		}
+
 		public GameObject Level;
 		public Player Player;
 		public Vector2 StartPoint;
