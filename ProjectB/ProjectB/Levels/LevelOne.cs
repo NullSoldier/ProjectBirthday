@@ -29,6 +29,9 @@ namespace ProjectB.Levels
 			AddGeometry (new Rectangle(465, 359, 264, 52), CollisionType.Impassable);
 			AddGeometry (new Rectangle(0, 184, 663, 54), CollisionType.Platform);
 
+			AddGeometry (new Rectangle(-56, -78, 56, 878), CollisionType.Impassable);
+			AddGeometry (new Rectangle(801, 59, 52, 746), CollisionType.Impassable);
+
 			AddLadder (new Rectangle(452, 518, 25, 231));
 			AddLadder (new Rectangle(124, 164, 22, 373));
 			AddLadder (new Rectangle(480, 173, 25, 183));
@@ -58,7 +61,8 @@ namespace ProjectB.Levels
 			GameObjects.Add (Player);
 
 			SpawnWalker (new Vector2(426, 750), Directions.Left, 200f, 150f);
-			SpawnWalker (new Vector2(150, 539), Directions.Left, 125f, 150f);
+			var w2 = SpawnWalker (new Vector2(150, 539), Directions.Left, 125f, 150f);
+			w2.Speed = 150;
 			SpawnWalker (new Vector2(605, 539), Directions.Right, 200f, 160f);
 			SpawnWalker (new Vector2(593, 357), Directions.Right, 100f, 100f);
 		}

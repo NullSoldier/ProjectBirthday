@@ -24,6 +24,7 @@ namespace ProjectB
 
 		public Directions Direction;
 		public int Health;
+		public int MaxHealth;
 		public bool IsOnGround;
 		public bool AcceptPhysicalInput = true;
 		public SpriteEffects flip = SpriteEffects.None;

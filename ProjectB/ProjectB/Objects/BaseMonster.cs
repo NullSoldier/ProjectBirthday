@@ -12,6 +12,12 @@ namespace ProjectB.Objects
 	{
 		public int Health;
 		public int MaxHealth;
+		public int Damage;
+
+		public bool IsAlive
+		{
+			get { return Health > 0; }
+		}
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{

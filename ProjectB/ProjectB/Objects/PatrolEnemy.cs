@@ -20,15 +20,16 @@ namespace ProjectB.Objects
 			if (defaultDirection == Directions.Left)
 				Speed *= -1;
 
-			moveAnimation = new Animation (Engine.ContentManager.Load<Texture2D> ("Player/Move"), 0.1f, true);
-			idleAnimation = new Animation (Engine.ContentManager.Load<Texture2D> ("Player/Idle"), 0.1f, true);
+			moveAnimation = new Animation (Engine.ContentManager.Load<Texture2D> ("Monsters/WalkerMove"), 0.1f, true);
+			idleAnimation = new Animation (Engine.ContentManager.Load<Texture2D> ("Monsters/WalkerIdle"), 0.1f, true);
 			Sprite.PlayAnimation (moveAnimation);
 
 			HealthBarWidth = moveAnimation.FrameWidth * 0.80f;
-			HealthBarPosition = new Vector2((-moveAnimation.FrameWidth / 2) + 5, -moveAnimation.FrameHeight - 10);
+			HealthBarPosition = new Vector2((-moveAnimation.FrameWidth / 2) + 5, -moveAnimation.FrameHeight + 10);
 
 			Health = 100;
 			MaxHealth = 100;
+			Damage = 10;
 		}
 
 		public override void Update(GameTime gameTime)
@@ -70,6 +71,6 @@ namespace ProjectB.Objects
 		private float homeX = 0;
 
 		private Animation moveAnimation;
-		private float Speed = 100;
+		public float Speed = 100;
 	}
 }

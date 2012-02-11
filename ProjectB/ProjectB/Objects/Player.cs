@@ -20,6 +20,7 @@ namespace ProjectB.Objects
 			climbIdleAnimation = new Animation(Engine.ContentManager.Load<Texture2D> ("Player/ClimbIdle"), 0.1f, false);
 
 			Health = 100;
+			MaxHealth = 100;
 			Sprite.PlayAnimation  (idleAnimation);
 		}
 	}

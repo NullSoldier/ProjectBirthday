@@ -11,6 +11,8 @@ namespace ProjectB.Objects
 	{
 		public Texture2D Texture;
 		public Vector2 Location;
+		public bool IsActive;
+		public bool MarkedForDeletion;
 
 		public virtual void Update(GameTime gameTime)
 		{

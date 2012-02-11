@@ -31,7 +31,7 @@ namespace ProjectB.States
 			if (Engine.IgnoreInput)
 				return;
 
-			if (IsLeftClicked ())
+			if (IsRightClicked ())
 			{
 				if (hasBuffered)
 				{
@@ -47,7 +47,7 @@ namespace ProjectB.States
 				//SpawnCat (lastMouseLoc, Directions.Right);
 			}
 
-			if (IsRightClicked ())
+			if (IsMiddleClicked ())
 			{
 				StringBuilder code = new StringBuilder ();
 
@@ -76,6 +76,11 @@ namespace ProjectB.States
 					batch.Draw (debugTexture, baseEnemy.GetBounds(), blueTransparent);
 			}
 
+			foreach (var cat in cats)
+				batch.Draw (debugTexture, cat.GetBounds(), blueTransparent);
+
+			batch.Draw (debugTexture, CurrentLevel.Player.GetBounds(), blueTransparent);
+
 			if (hasBuffered)
 				batch.Draw (debugTexture, RectangleHelpers.FromVectors (lastMouseLoc, lastClicked), blueTransparent);
 
@@ -96,6 +101,12 @@ namespace ProjectB.States
 		private Color redTransparent;
 		private Color blueTransparent;
 		private Color greenTransparent;
+
+		private bool IsMiddleClicked ()
+		{
+			return Engine.OldMouse.MiddleButton == ButtonState.Released
+				&& Engine.NewMouse.MiddleButton == ButtonState.Pressed;
+		}
 
 		private bool IsLeftClicked()
 		{

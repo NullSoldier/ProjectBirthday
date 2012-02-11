@@ -27,6 +27,16 @@ namespace ProjectB.Objects
 			sprite.PlayAnimation (moveAnimation);
 		}
 
+		public override Rectangle GetBounds()
+		{
+			int x = (int)Location.X - 30;
+			int y = (int)Location.Y - 55;
+			
+			return new Rectangle  (x, y,
+				(int)(moveAnimation.FrameWidth * catScale),
+				(int)(moveAnimation.FrameHeight * catScale));
+		}
+
 		public override void Update (GameTime gameTime)
 		{
 			// Move the Nyan cat
@@ -73,7 +83,6 @@ namespace ProjectB.Objects
 				chunk.Draw (spriteBatch);
 
 			sprite.Draw (lastGametime, spriteBatch, Location, effects, Color.White, catScale);
-			//spriteBatch.Draw (Texture, Location + new Vector2 (0, 23 * catScale), null, Color.White, 0f, origin, catScale, effects, 1f);
 		}
 
 		private AnimationPlayer sprite;
