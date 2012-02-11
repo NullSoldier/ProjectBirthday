@@ -21,6 +21,7 @@ namespace ProjectB.Objects
 				Speed *= -1;
 
 			moveAnimation = new Animation (Engine.ContentManager.Load<Texture2D> ("Player/Move"), 0.1f, true);
+			idleAnimation = new Animation (Engine.ContentManager.Load<Texture2D> ("Player/Idle"), 0.1f, true);
 			Sprite.PlayAnimation (moveAnimation);
 
 			HealthBarWidth = moveAnimation.FrameWidth * 0.80f;
@@ -55,7 +56,12 @@ namespace ProjectB.Objects
 
 			base.Draw (spriteBatch);
 		}
-		
+
+		public override Rectangle GetBounds()
+		{
+			return base.GetBounds();
+		}
+
 		private GameTime lastGameTime;
 		private SpriteEffects flip;
 		private Directions direction;
@@ -63,8 +69,6 @@ namespace ProjectB.Objects
 		private float maxRight;
 		private float homeX = 0;
 
-		private AnimationPlayer Sprite;
-		private Animation idleAnimation;
 		private Animation moveAnimation;
 		private float Speed = 100;
 	}

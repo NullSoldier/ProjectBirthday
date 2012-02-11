@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ProjectB.Objects;
 
 namespace ProjectB.States
 {
@@ -67,6 +68,13 @@ namespace ProjectB.States
 
 			foreach (var geometry in CurrentLevel.CollisionGeometry)
 				batch.Draw (debugTexture, geometry.Rectangle, greenTransparent);
+
+			foreach (var entity in CurrentLevel.GameObjects)
+			{
+				var baseEnemy = entity as BaseMonster;
+				if (baseEnemy != null)
+					batch.Draw (debugTexture, baseEnemy.GetBounds(), blueTransparent);
+			}
 
 			if (hasBuffered)
 				batch.Draw (debugTexture, RectangleHelpers.FromVectors (lastMouseLoc, lastClicked), blueTransparent);

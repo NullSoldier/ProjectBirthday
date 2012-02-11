@@ -12,6 +12,7 @@ namespace ProjectB.Objects
 	{
 		public int Health;
 		public int MaxHealth;
+
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			float percentage = (float)Health / (float)MaxHealth;
@@ -29,8 +30,35 @@ namespace ProjectB.Objects
 			spriteBatch.Draw (Engine.BlankTexture, healthRectangle, null, Color.Green);
 		}
 
+		public virtual Rectangle GetBounds ()
+		{
+			if (!boundsCalculated)
+			{
+				CalculateBounds ();
+				boundsCalculated = true;
+			}
+
+			int left = (int)Math.Round(Location.X - Sprite.Origin.X) + localBounds.X;
+            int top = (int)Math.Round(Location.Y - Sprite.Origin.Y) + localBounds.Y;
+
+            return new Rectangle(left, top, localBounds.Width, localBounds.Height);
+		}
 		
+		protected Animation idleAnimation;
 		protected Vector2 HealthBarPosition;
 		protected float HealthBarWidth;
+		protected AnimationPlayer Sprite;
+		protected Rectangle localBounds;
+		private bool boundsCalculated;
+
+		private void CalculateBounds ()
+		{
+			// Calculate bounds within texture size.            
+            int width = (int)(idleAnimation.FrameWidth * 0.4);
+            int left = (idleAnimation.FrameWidth - width) / 2;
+            int height = (int)(idleAnimation.FrameWidth * 0.8);
+            int top = idleAnimation.FrameHeight - height;
+            localBounds = new Rectangle(left, top, width, height);
+		}
 	}
 }
