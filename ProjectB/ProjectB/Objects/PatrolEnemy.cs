@@ -29,7 +29,7 @@ namespace ProjectB.Objects
 
 			Health = 100;
 			MaxHealth = 100;
-			Damage = 10;
+			Damage = 25;
 		}
 
 		public override void Update(GameTime gameTime)

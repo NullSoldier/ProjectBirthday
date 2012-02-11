@@ -207,7 +207,8 @@ namespace ProjectB.States
 				canFireGun = false;
 				gunTimePassed = 0;
 			}
-			if (Engine.NewKeyboard.IsKeyDown (Keys.Z) && Engine.OldKeyboard.IsKeyUp (Keys.Z))
+			if ((Engine.NewKeyboard.IsKeyDown (Keys.Z) && Engine.OldKeyboard.IsKeyUp (Keys.Z))
+				|| (Engine.NewPad.IsButtonDown(Buttons.Y) && Engine.OldPad.IsButtonUp(Buttons.Y)))
 			{
 				Rectangle playerBounds = CurrentLevel.Player.GetBounds();
 

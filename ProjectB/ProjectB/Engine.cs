@@ -90,7 +90,7 @@ namespace ProjectB
 
 			levels = new BaseLevel[]
 			{
-				new LevelOne(),
+				new LevelIntro(),
 				new LevelOne(),
 				new LevelTwo(), 
 				new LevelThree(),
