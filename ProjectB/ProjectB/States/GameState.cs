@@ -21,7 +21,6 @@ namespace ProjectB.States
 		public override void Load ()
 		{
 			camera = new Camera (Engine.ScreenWidth, Engine.ScreenHeight);
-			cloudManager = new CloudManager (camera.Bounds.Width, camera.Bounds.Height);
 			effectManager = new EffectManager (this);
 			cats = new List<NyanCat>();
 
@@ -33,7 +32,8 @@ namespace ProjectB.States
 
 		public override void Update (GameTime gameTime)
 		{
-			HandleControls ();
+			if (!Engine.IgnoreInput)
+				HandleControls ();
 
 			foreach (GameObject entity in CurrentLevel.GameObjects)
 				entity.Update (gameTime);
@@ -82,10 +82,10 @@ namespace ProjectB.States
 
 		private SpriteBatch batch;
 		public Camera camera;
-		private CloudManager cloudManager;
+		public CloudManager cloudManager;
 		public EffectManager effectManager;
 		private bool editorModeEnabled = false;
-		private List<NyanCat> cats;
+		public List<NyanCat> cats;
 		private Texture2D catTexture;
 
 		public void SpawnCat(Vector2 location, Directions direction)
@@ -104,7 +104,7 @@ namespace ProjectB.States
 				editorModeEnabled = !editorModeEnabled;
 
 			if (!editorModeEnabled && Engine.NewMouse.LeftButton == ButtonState.Pressed
-				&& Engine.OldMouse.LeftButton == ButtonState.Released)
+				&& Engine.OldMouse.LeftButton == ButtonState.Released && !CurrentLevel.Player.isClimbing)
 			{
 				float offset = 0;
 				if (CurrentLevel.Player.Direction == Directions.Left)
@@ -112,7 +112,6 @@ namespace ProjectB.States
 				else
 					offset += 20;
 				
-
 				SpawnCat (CurrentLevel.Player.Location + new Vector2 (offset, 0), CurrentLevel.Player.Direction);
 			}
 		}

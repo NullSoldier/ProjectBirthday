@@ -27,6 +27,9 @@ namespace ProjectB.States
 		{
 			lastMouseLoc = camera.ScreenToWorld (new Vector2 (Engine.NewMouse.X, Engine.NewMouse.Y));
 
+			if (Engine.IgnoreInput)
+				return;
+
 			if (IsLeftClicked ())
 			{
 				if (hasBuffered)

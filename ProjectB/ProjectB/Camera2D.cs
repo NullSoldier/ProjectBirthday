@@ -42,9 +42,9 @@ namespace ProjectB
 			updateTransform = true;
 		}
 
-		public Vector2 ScreenToWorld(Vector2 screenVector)
+		public Vector2 ScreenToWorld (Vector2 screenVector)
 		{
-			return new Vector2(screenVector.X + Location.X, screenVector.Y + Location.Y);
+			return new Vector2((screenVector.X * Scale)+ Location.X, (screenVector.Y + Location.Y) * Scale);
 		}
 
 		public Vector2 Origin

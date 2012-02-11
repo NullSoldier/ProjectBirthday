@@ -16,6 +16,8 @@ namespace ProjectB.Objects
             idleAnimation = new Animation(Engine.ContentManager.Load<Texture2D> ("Player/Idle"), 0.1f, true);
             moveAnimation = new Animation(Engine.ContentManager.Load<Texture2D> ("Player/Move"), 0.1f, true);
             jumpAnimation = new Animation(Engine.ContentManager.Load<Texture2D> ("Player/Jump"), 0.1f, false);
+			climbAnimation = new Animation(Engine.ContentManager.Load<Texture2D> ("Player/Climb"), 0.1f, true);
+			climbIdleAnimation = new Animation(Engine.ContentManager.Load<Texture2D> ("Player/ClimbIdle"), 0.1f, false);
 
 			Health = 100;
 			Sprite.PlayAnimation  (idleAnimation);

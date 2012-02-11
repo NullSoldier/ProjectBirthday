@@ -18,6 +18,7 @@ namespace ProjectB.Objects
 
 		public virtual void Draw(SpriteBatch spriteBatch)
 		{
+			spriteBatch.Draw (Texture, Location, Color.White);
 		}
 
 		public virtual Rectangle GetBounds()

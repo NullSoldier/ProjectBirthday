@@ -34,6 +34,11 @@ namespace ProjectB
 		public static GamePadState OldPad;
 		public static BaseState NextState;
 		public static int NextLevelIndex;
+
+		public static bool IgnoreInput
+		{
+			get { return !Project.IsActive; }
+		}
 		
 		public BaseLevel CurrentLevel
 		{
@@ -81,7 +86,7 @@ namespace ProjectB
 
 			levels = new BaseLevel[]
 			{
-				new LevelOne(), 
+				new LevelIntro(), 
 				new LevelOne()
 			};
 			levelIndex = 0;
@@ -101,7 +106,7 @@ namespace ProjectB
 			this.CurrentState = states["MenuState"];
 			this.CurrentState.Activate();
 
-			Fade (0f, 255f, 0.50f);
+			//Fade (0f, 255f, 0.50f);
 		}
 
 		protected override void UnloadContent()

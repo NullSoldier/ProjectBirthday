@@ -17,7 +17,7 @@ namespace ProjectB.Levels
 			: base ("LevelIntro")
 		{
 			this.StartPoint = new Vector2(10, 150);
-			this.SkyColor = Color.Gray;
+			this.SkyColor = Color.Transparent;
 			this.UseClouds = false;
 
 			AddGeometry (new Rectangle(0, 0, 479, 52), CollisionType.Impassable);
@@ -37,7 +37,9 @@ namespace ProjectB.Levels
 				camera.Scale =  1.8f;
 				camera.CenterOnPoint (240, 122);
 			}
-			
+
+			SpawnGiftBox ("Boxes", new Vector2(210, 123));
+
 			boss = new Boss
 			{
 				Texture = Engine.ContentManager.Load<Texture2D> ("Boss"),
@@ -45,6 +47,9 @@ namespace ProjectB.Levels
 				Alpha = 0f,
 				AcceptPhysicalInput = false
 			};
+
+			GameObjects.Add (Player);
+			GameObjects.Add (boss);
 
 			effects.Add ("Character", new CharacterMoveEffect(Player, 100, Directions.Right));
 			effects.Add ("Character", new WaitEffect (2f, () =>
@@ -71,18 +76,19 @@ namespace ProjectB.Levels
 			}));
 			});
 			}));
-
-			GameObjects.Add (Player);
-			GameObjects.Add (boss);
-		}
-
-		public override void Update(GameTime gameTime)
-		{
-			
 		}
 
 		private Camera camera;
 		private EffectManager effects;
 		private Character boss;
+
+		private void SpawnGiftBox (string name, Vector2 location)
+		{
+			GameObjects.Add(new GameObject
+			{
+				Location = location,
+				Texture = Engine.ContentManager.Load<Texture2D> ("Gifts\\" + name)
+			});
+		}
 	}
 }

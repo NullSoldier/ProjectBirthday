@@ -41,6 +41,8 @@ namespace ProjectB.Levels
 
 		public override void Start (GameState gameState)
 		{
+			this.gameState = gameState;
+
 			SpawnPlayer (StartPoint);
 
 			camera = gameState.camera;
@@ -51,9 +53,12 @@ namespace ProjectB.Levels
 				camera.CenterOnPoint (StartPoint);
 			}
 
+			gameState.cloudManager = new CloudManager (camera.Bounds.Width, camera.Bounds.Height);
+
 			GameObjects.Add (Player);
 		}
 
 		private Camera camera;
+		private GameState gameState;
 	}
 }

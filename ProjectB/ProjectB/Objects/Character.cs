@@ -49,13 +49,13 @@ namespace ProjectB
             }
 			else if (isClimbing)
 			{
-				 if (Math.Abs(velocity.X) - 0.02f > 0)
+				 if (Math.Abs(velocity.Y) - 0.02f > 0)
                 {
-                    Sprite.PlayAnimation(jumpAnimation);
+                    Sprite.PlayAnimation(climbAnimation);
                 }
                 else
                 {
-                    Sprite.PlayAnimation(jumpAnimation);
+                    Sprite.PlayAnimation(climbIdleAnimation);
                 }
 			}
 
@@ -124,7 +124,7 @@ namespace ProjectB
 
 		private float previousBottom;
 		private Vector2 velocity;
-		private bool isClimbing;
+		public bool isClimbing;
 		private bool isJumping;
 		private bool wasJumping;
 		private float jumpTime;
@@ -152,6 +152,8 @@ namespace ProjectB
 		protected Animation idleAnimation;
 		protected Animation moveAnimation;
 		protected Animation jumpAnimation;
+		protected Animation climbAnimation;
+		protected Animation climbIdleAnimation;
 		private Rectangle localBounds;
 		private bool boundsCalculated;
 

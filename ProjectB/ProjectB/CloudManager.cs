@@ -41,7 +41,7 @@ namespace ProjectB
 
 		private Cloud[] clouds;
 		private Color cloudColor;
-		private int cloudCount = 4;
+		private int cloudCount = 6;
 		private Texture2D cloudTexture;
 		private Random random;
 		private int managerWidth;
