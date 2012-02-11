@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ProjectB.Objects;
@@ -27,6 +28,12 @@ namespace ProjectB.States
 
 			batch = Engine.Batch;
 			catTexture = Engine.ContentManager.Load<Texture2D> ("NyanCat");
+			nyanSoundEffect = Engine.ContentManager.Load<SoundEffect> ("Sound/Nyan");
+			
+			nyanInstance = nyanSoundEffect.CreateInstance();
+			nyanInstance.IsLooped = false;
+			nyanInstance.Volume = 0.5f;
+			nyanInstance.Stop();
 
 			EditorLoad();
 		}
@@ -129,6 +136,9 @@ namespace ProjectB.States
 				Location = location
 			};
 			cats.Add (cat);
+
+			nyanCount++;
+			nyanInstance.Play();
 		}
 		
 		private void HandleControls()
@@ -136,8 +146,11 @@ namespace ProjectB.States
 			if (Engine.NewKeyboard.IsKeyDown (Keys.F1) && Engine.OldKeyboard.IsKeyUp (Keys.F1))
 				editorModeEnabled = !editorModeEnabled;
 
-			if (Engine.NewMouse.LeftButton == ButtonState.Pressed
-				&& Engine.OldMouse.LeftButton == ButtonState.Released
+			if (((Engine.NewMouse.LeftButton == ButtonState.Pressed
+				&& Engine.OldMouse.LeftButton == ButtonState.Released)
+				|| (Engine.NewPad.IsButtonDown(Buttons.X)
+				&& Engine.OldPad.IsButtonUp(Buttons.X)))
+
 				&& !CurrentLevel.Player.isClimbing
 				&& canFireGun)
 			{
@@ -206,14 +219,29 @@ namespace ProjectB.States
 							enemy.IsActive = false;
 							enemy.MarkedForDeletion = true;
 						}
+
+						KillNyanCat ();
 					}
 
 				}
-				if (cat.Location.X < 0 || 0 > camera.Bounds.Width)
+				if (cat.Location.X < 0 || cat.Location.X > camera.Bounds.Width)
+				{
 					cats.Remove (cat);
+					KillNyanCat();
+				}
 			}
 		}
 
+		private void KillNyanCat ()
+		{
+			nyanCount--;
+							
+			if (nyanCount <= 0)
+				nyanInstance.Stop();
+		}
+		private int nyanCount = 0;
+		private SoundEffect nyanSoundEffect;
+		private SoundEffectInstance nyanInstance;
 		private int HealthBarWidth = 300;
 		private int HealthBarHeight = 20;
 		private int NyanDamage = 30;
