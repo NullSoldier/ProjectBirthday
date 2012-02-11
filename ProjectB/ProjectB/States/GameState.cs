@@ -65,6 +65,21 @@ namespace ProjectB.States
 
 			CheckPlayerDeath();
 
+			// Fade Nyan sound
+			if (!isNyanFading)
+				nyanInstance.Volume = 1f;
+			else
+			{
+				nyanFadePassed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+				nyanInstance.Volume = 1 - MathHelper.Clamp(nyanFadePassed / nyanFadeTotal, 0, 1);
+
+				if (nyanInstance.Volume == 0f)
+				{
+					isNyanFading = false;
+					nyanInstance.Stop();
+				}
+			}
+
 			// Gun reload update
 			if (!canFireGun)
 			{
@@ -138,6 +153,9 @@ namespace ProjectB.States
 			cats.Add (cat);
 
 			nyanCount++;
+
+			isNyanFading = false;
+			nyanInstance.Volume = 1f;
 			nyanInstance.Play();
 		}
 		
@@ -237,7 +255,10 @@ namespace ProjectB.States
 			nyanCount--;
 							
 			if (nyanCount <= 0)
-				nyanInstance.Stop();
+			{
+				isNyanFading = true;
+				nyanFadePassed = 0;
+			}
 		}
 		private int nyanCount = 0;
 		private SoundEffect nyanSoundEffect;
@@ -254,6 +275,9 @@ namespace ProjectB.States
 		private float gunTimePassed;
 		private float gunTimeTotal = 500;
 
+		private float nyanFadePassed;
+		private float nyanFadeTotal = 500;
+		private bool isNyanFading = false;
 
 		private void DrawHealthBar (SpriteBatch spriteBatch)
 		{
