@@ -111,12 +111,15 @@
     <Compile Include="CloudManager.cs" />
     <Compile Include="CollisionGeometry.cs" />
     <Compile Include="Directions.cs" />
+    <Compile Include="Levels\LevelIntro.cs" />
     <Compile Include="Levels\LevelOne.cs" />
     <Compile Include="Objects\NyanCat.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="RandomHelper.cs" />
     <Compile Include="RectangleExtensions.cs" />
     <Compile Include="RectangleHelper.cs" />
+    <Compile Include="Scripts\BaseEffect.cs" />
+    <Compile Include="Scripts\CharacterMoveEffect.cs" />
     <Compile Include="States\BaseState.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="Objects\Ladder.cs" />

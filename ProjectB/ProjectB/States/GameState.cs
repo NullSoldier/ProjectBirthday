@@ -14,21 +14,20 @@ namespace ProjectB.States
 	{
 		public override void Activate ()
 		{
+			CurrentLevel.Start (this);
 		}
 
 		public override void Load ()
 		{
 			camera = new Camera (ProjectB.ScreenWidth, ProjectB.ScreenHeight);
 			camera.Bounds = new Rectangle(0, 0, CurrentLevel.Level.Texture.Width, CurrentLevel.Level.Texture.Height);
-			camera.UseBounds = true;
+			camera.UseBounds = false;
 
 			cloudManager = new CloudManager (camera.Bounds.Width, camera.Bounds.Height);
 			cats = new List<NyanCat>();
 
 			batch = ProjectB.Batch;
-			clearColor = new Color(166, 211, 239);
 			catTexture = ProjectB.ContentManager.Load<Texture2D> ("NyanCat");
-			SpawnPlayer (CurrentLevel.StartPoint);
 
 			EditorLoad();
 		}
@@ -38,7 +37,9 @@ namespace ProjectB.States
 			HandleControls ();
 
 			player.Update (gameTime);
-			cloudManager.Update (gameTime);
+			
+			if (CurrentLevel.UseClouds)
+				cloudManager.Update (gameTime);
 
 			foreach (NyanCat cat in cats)
 				cat.Update (gameTime);
@@ -51,11 +52,13 @@ namespace ProjectB.States
 
 		public override void Draw ()
 		{
-			ProjectB.Graphics.GraphicsDevice.Clear (clearColor);
+			ProjectB.Graphics.GraphicsDevice.Clear (CurrentLevel.SkyColor);
 
 			batch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, camera.Transformation);
+			
+			if (CurrentLevel.UseClouds)
+				cloudManager.Draw (batch);
 
-			cloudManager.Draw (batch);
 			batch.Draw (CurrentLevel.Level.Texture, Vector2.Zero, Color.White);
 			player.Draw (batch);
 
@@ -74,17 +77,14 @@ namespace ProjectB.States
 		}
 
 		private SpriteBatch batch;
-		private Camera camera;
-		private Player player;
+		public Camera camera;
+		public Player player;
 		private CloudManager cloudManager;
-		private float playerSpeed = 0.3f;
 		private bool editorModeEnabled = false;
-		private Color clearColor;
 		private List<NyanCat> cats;
 		private Texture2D catTexture;
-		private Vector2 gravity = new Vector2(0, 5);
 
-		private void SpawnPlayer (Vector2 location)
+		public void SpawnPlayer (Vector2 location)
 		{
 			player = new Player
 			{
@@ -93,7 +93,7 @@ namespace ProjectB.States
 			};
 		}
 
-		private void SpawnCat(Vector2 location, Directions direction)
+		public void SpawnCat(Vector2 location, Directions direction)
 		{
 			NyanCat cat = new NyanCat (direction)
 			{

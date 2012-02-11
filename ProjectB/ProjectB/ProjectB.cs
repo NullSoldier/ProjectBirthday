@@ -71,9 +71,10 @@ namespace ProjectB
 		{
 			ProjectB.Batch = spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			levels =  new []
+			levels = new BaseLevel[]
 			{
-				new LevelOne ()
+				new LevelIntro(),
+				new LevelOne()
 			};
 			levelIndex = 0;
 

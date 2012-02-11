@@ -20,10 +20,13 @@ namespace ProjectB
 		public Directions Direction;
 		public int Health;
 		public bool IsOnGround;
+		public bool AcceptPhysicalInput = true;
 
 		public override void Update(GameTime gameTime)
 		{
-			HandleInput ();
+			if (AcceptPhysicalInput)
+				HandleInput ();
+
 			ApplyPhysics (gameTime, ProjectB.Project.CurrentLevel);
 
 			movement = 0f;
@@ -38,6 +41,24 @@ namespace ProjectB
 		public override Rectangle GetBounds()
 		{
 			return new Rectangle ((int)Location.X, (int)Location.Y, Texture.Width, Texture.Height);
+		}
+
+		public void PerformAction (CharacterAction action)
+		{
+			switch (action)
+			{
+				case CharacterAction.MoveLeft:
+					movement = -1.0f;
+					break;
+				case CharacterAction.MoveRight:
+					movement = 1.0f;
+					break;
+				case CharacterAction.Jump:
+					isJumping = true;
+					break;
+			}
+
+			ResolveDirection();
 		}
 
 		private float previousBottom;
@@ -193,10 +214,22 @@ namespace ProjectB
 			isJumping = ProjectB.NewKeyboard.IsKeyDown (Keys.Space)
 				|| ProjectB.NewKeyboard.IsKeyDown (Keys.W);
 
+			ResolveDirection();
+		}
+
+		private void ResolveDirection()
+		{
 			if (movement > 0)
 				Direction = Directions.Right;
 			else if (movement < 0)
 				Direction = Directions.Left;
 		}
+	}
+
+	public enum CharacterAction
+	{
+		MoveLeft,
+		MoveRight,
+		Jump
 	}
 }
