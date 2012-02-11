@@ -263,9 +263,15 @@ namespace ProjectB
 
 			if (isClimbing && climbingOn == null)
 				isClimbing = false;
-			else if (!isClimbing && climbingOn != null)
+			else if (!isClimbing && climbingOn != null && ShouldAttachToLadder())
 				isClimbing = true;
 
+		}
+
+		private bool ShouldAttachToLadder ()
+		{
+			return Engine.NewKeyboard.IsKeyDown (Keys.W)
+				|| Engine.NewKeyboard.IsKeyDown (Keys.S);
 		}
 
 		private void HandleCollisions (BaseLevel level)
@@ -291,9 +297,12 @@ namespace ProjectB
 					// Resolve the collision along the shallow axis.
 					if (absDepthY < absDepthX || collision == CollisionType.Platform) // Or if floating platform
 					{
-						// If we crossed the top of a tile, we are on the ground.
-						if (previousBottom <= tileBounds.Top)
-							this.IsOnGround = true;
+						if (!isClimbing)
+						{
+							// If we crossed the top of a tile, we are on the ground.
+							if (previousBottom <= tileBounds.Top)
+								this.IsOnGround = true;
+						}
 
 						// Ignore platforms, unless we are on the ground.
 						if (collision == CollisionType.Impassable || this.IsOnGround)

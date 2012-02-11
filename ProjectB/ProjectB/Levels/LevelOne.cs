@@ -24,13 +24,14 @@ namespace ProjectB.Levels
 			AddGeometry (new Rectangle (647, 751, 152, 48), CollisionType.Impassable);
 
 			AddGeometry (new Rectangle(397, 538, 402, 55), CollisionType.Platform);
-			AddGeometry (new Rectangle(-1, 538, 334, 54), CollisionType.Platform);
+			AddGeometry (new Rectangle(-1, 538, 334, 54), CollisionType.Impassable);
 
-			AddGeometry (new Rectangle(465, 359, 264, 52), CollisionType.Platform);
+			AddGeometry (new Rectangle(465, 359, 264, 52), CollisionType.Impassable);
 			AddGeometry (new Rectangle(0, 184, 663, 54), CollisionType.Platform);
 
 			AddLadder (new Rectangle(452, 518, 25, 231));
 			AddLadder (new Rectangle(124, 164, 22, 373));
+			AddLadder (new Rectangle(480, 173, 25, 183));
 		}
 
 		public override void Update (GameTime gametime)
