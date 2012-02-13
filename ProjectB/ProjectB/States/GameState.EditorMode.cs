@@ -82,6 +82,9 @@ namespace ProjectB.States
 			foreach (var chest in CurrentLevel.Chests)
 				batch.Draw (debugTexture, chest.GetBounds(), blueTransparent);
 
+			foreach (var bullet in projectiles)
+				batch.Draw (debugTexture, bullet.GetBounds(), redTransparent);
+
 			batch.Draw (debugTexture, CurrentLevel.Player.GetBounds(), blueTransparent);
 			batch.Draw (debugTexture, CurrentLevel.Exit.GetBounds(), blueTransparent);
 

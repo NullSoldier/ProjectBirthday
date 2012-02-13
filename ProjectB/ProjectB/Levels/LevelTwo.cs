@@ -15,7 +15,7 @@ namespace ProjectB.Levels
 			: base ("LevelTwo")
 		{
 			this.StartPoint = new Vector2(30, 700);
-			this.SkyColor = new Color(166, 211, 239);
+			this.SkyColor = new Color(255, 170, 85);
 			this.UseClouds = true;
 			this.DisplayInterface = true;
 
@@ -31,7 +31,7 @@ namespace ProjectB.Levels
 			AddGeometry (new Rectangle(764, 750, 36, 50), CollisionType.Impassable);
 
 			AddGeometry (new Rectangle(454, 443, 268, 56), CollisionType.Platform);
-			AddGeometry (new Rectangle(231, 443, 149, 53), CollisionType.Platform);
+			AddGeometry (new Rectangle(231, 443, 149, 53), CollisionType.Impassable);
 			AddGeometry (new Rectangle(9, 364, 65, 54), CollisionType.Platform);
 
 			AddGeometry (new Rectangle(0, 176, 288, 54), CollisionType.Platform);
@@ -76,7 +76,7 @@ namespace ProjectB.Levels
 			var w1 = SpawnWalker (new Vector2(396, 647), Directions.Left, 100f, 115f);
 			var w2 = SpawnWalker (new Vector2(589, 443), Directions.Right, 100f, 110f);
 			var w3 = SpawnWalker (new Vector2(143, 175), Directions.Right, 100f, 100f);
-			var s1 = SpawnSentry (new Vector2(41, 365), Directions.Right, 50);
+			var s1 = SpawnSentry (new Vector2(41, 365), Directions.Right, 1600, gameState);
 
 			w1.Speed = 150;
 		}

@@ -43,6 +43,8 @@ namespace ProjectB.Objects
 
 			gameState.effectManager.Add ("Chest", new CharacterFadeEffect (this, 1f, 0f, 1f,
 				() => this.IsActive = false));
+
+			Opened = true;
 		}
 	}
 }

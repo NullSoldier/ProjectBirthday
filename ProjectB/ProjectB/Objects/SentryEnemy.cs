@@ -4,20 +4,22 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ProjectB.States;
 
 namespace ProjectB.Objects
 {
 	public class SentryEnemy
 		: BaseMonster
 	{
-		public SentryEnemy (Vector2 location, Directions defaultDirection, float fireSpeed)
+		public SentryEnemy (Vector2 location, Directions defaultDirection, float fireSpeed, GameState gameState)
 		{
 			this.Location = location;
 			this.FireSpeed = fireSpeed;
 			this.direction = defaultDirection;
+			this.gameState = gameState;
 
 			if (direction == Directions.Left)
-				FireSpeed *= -1;
+				horizontalOffset = -64;
 
 			if (direction == Directions.Right)
 				flip = SpriteEffects.FlipHorizontally;
@@ -37,7 +39,19 @@ namespace ProjectB.Objects
 		public override void Update(GameTime gameTime)
 		{
 			lastGameTime = gameTime;
+
+			timePassed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+			if (timePassed >= FireSpeed)
+			{
+				gameState.SpawnProjectile (this.Location + new Vector2(horizontalOffset, -64), this.direction, Damage);
+				timePassed = 0;
+			}
+
 		}
+
+		private float timePassed;
+		private GameState gameState;
 
 		public override void Draw(SpriteBatch spriteBatch)
 		{
@@ -56,11 +70,13 @@ namespace ProjectB.Objects
 
 		private GameTime lastGameTime;
 		private SpriteEffects flip;
+		private float horizontalOffset;
 		private Directions direction;
 		private bool invincible = false;
 
 		private Animation idleInvincable;
-		public float FireSpeed = 100;
+		public float FireSpeed = 5000;
+
 		public bool Invincible
 		{
 			get { return invincible; }

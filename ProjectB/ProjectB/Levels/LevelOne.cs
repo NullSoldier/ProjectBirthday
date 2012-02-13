@@ -63,7 +63,7 @@ namespace ProjectB.Levels
 			camera = gameState.camera;
 			{
 				camera.Bounds = new Rectangle(0, 0, Level.Texture.Width, Level.Texture.Height);
-				camera.UseBounds = true;
+				camera.UseBounds = false;
 				camera.Scale =  1f;
 				camera.CenterOnPoint (StartPoint);
 			}

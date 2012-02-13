@@ -74,8 +74,8 @@ namespace ProjectB.Levels
 
 			var w1 = SpawnWalker (new Vector2(195, 301), Directions.Left, 140f, 135f);
 			var w2 = SpawnWalker (new Vector2(304, 533), Directions.Right, 55f, 55f);
-			var s1 = SpawnSentry (new Vector2(761, 744), Directions.Left, 50);
-			var s2 = SpawnSentry (new Vector2(30, 300), Directions.Right, 50);
+			var s1 = SpawnSentry (new Vector2(761, 744), Directions.Left, 1800, gameState);
+			var s2 = SpawnSentry (new Vector2(30, 300), Directions.Right, 2000, gameState);
 
 			s1.Invincible = true;
 			w1.Speed = 150;

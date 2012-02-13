@@ -129,6 +129,7 @@
     <Compile Include="Objects\Character.cs" />
     <Compile Include="Objects\PatrolEnemy.cs" />
     <Compile Include="Objects\Player.cs" />
+    <Compile Include="Objects\Projectile.cs" />
     <Compile Include="Objects\SentryEnemy.cs" />
     <Compile Include="Objects\SpeechBubble.cs" />
     <Compile Include="RandomHelper.cs" />

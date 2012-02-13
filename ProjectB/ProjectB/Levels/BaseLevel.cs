@@ -41,9 +41,9 @@ namespace ProjectB
 			return newWalker;
 		}
 
-		public SentryEnemy SpawnSentry (Vector2 location, Directions direction, float fireSpeed)
+		public SentryEnemy SpawnSentry (Vector2 location, Directions direction, float fireSpeed, GameState gameState)
 		{
-			var newSentry = new SentryEnemy (location, direction, fireSpeed);
+			var newSentry = new SentryEnemy (location, direction, fireSpeed, gameState);
 			GameObjects.Add (newSentry);
 
 			return newSentry;

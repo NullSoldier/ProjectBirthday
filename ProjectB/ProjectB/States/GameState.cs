@@ -18,6 +18,7 @@ namespace ProjectB.States
 		public override void Activate ()
 		{
 			transitioning = false;
+			FriendsCaptured = 0;
 			CurrentLevel.Start (this);
 		}
 
@@ -26,6 +27,7 @@ namespace ProjectB.States
 			camera = new Camera (Engine.ScreenWidth, Engine.ScreenHeight);
 			effectManager = new EffectManager (this);
 			cats = new List<NyanCat>();
+			projectiles = new List<Projectile>();
 
 			batch = Engine.Batch;
 			catTexture = Engine.ContentManager.Load<Texture2D> ("NyanCat");
@@ -104,6 +106,22 @@ namespace ProjectB.States
 					canTakedamage = true;
 				}
 			}
+
+			var playerBounds = CurrentLevel.Player.GetBounds(); 
+
+			foreach(Projectile P in projectiles.ToArray())
+			{
+				P.Update(gameTime);
+
+				if (playerBounds.Intersects(P.GetBounds()))
+				{
+					CurrentLevel.Player.Health -= (int)P.Damage;
+					projectiles.Remove (P);
+				}
+
+				if (P.Location.X < 0 - 20 || P.Location.X > camera.Bounds.Width)
+					projectiles.Remove (P);
+			}
 		}
 
 		public override void Draw ()
@@ -125,6 +143,9 @@ namespace ProjectB.States
 
 			foreach (NyanCat cat in cats)
 				cat.Draw (batch);
+
+			foreach (Projectile p in projectiles)
+				p.Draw (batch);
 
 			batch.End();
 
@@ -159,6 +180,16 @@ namespace ProjectB.States
 		private Texture2D healthBarTexture;
 		private Texture2D reloadBarTexture;
 		private bool transitioning;
+		private List<Projectile> projectiles;
+
+		public void SpawnProjectile (Vector2 location, Directions direction, float damage)
+		{
+			var projectile = new Projectile(direction, location)
+			{
+				Damage = damage
+			};
+			projectiles.Add(projectile);
+		}
 
 		public void CaptureFriend ()
 		{
@@ -214,7 +245,7 @@ namespace ProjectB.States
 
 				foreach (Chest chest in CurrentLevel.Chests)
 				{
-					if (!chest.IsActive)
+					if (!chest.IsActive || chest.Opened)
 						continue;
 
 					if (!chest.GetBounds().Intersects(playerBounds))
