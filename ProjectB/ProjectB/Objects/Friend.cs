@@ -27,7 +27,7 @@ namespace ProjectB.Objects
 		public void Spawn (GameState gameState)
 		{
 			//gameState.effectManager.Add ("Friend", new CharacterMessageEffect (this, ThanksMessage));
-			gameState.effectManager.Add ("Friend", new CharacterFadeEffect(this, 1f, 0f, 2f,
+			gameState.effectManager.Add ("Friend", new CharacterFadeEffect(this, 1f, 0f, 3f,
 				() => gameState.CaptureFriend()));
 		}
 

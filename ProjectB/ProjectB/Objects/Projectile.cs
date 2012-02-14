@@ -28,10 +28,15 @@ namespace ProjectB.Objects
 
 		public float speed = 5;
 		public float Damage;
+		public float Life = -1;
+
 		public SpriteEffects flip = SpriteEffects.None;
 
 		public override void Update(GameTime gameTime)
 		{
+			if (Life != -1)
+				Life = RandomHelper.LowClamp (Life - (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
+
 			Location += new Vector2(speed,0);	
 		}
 

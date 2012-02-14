@@ -21,14 +21,14 @@ namespace ProjectB.Levels
 
 			this.Exit = new CaveExit
 			{
-				Location = new Vector2(780, 623)
+				Location = new Vector2(730, 300)
 			};
 			
 			AddGeometry (new Rectangle (-1, 751, 146, 46), CollisionType.Impassable);
 			AddGeometry (new Rectangle(200, 746, 64, 52), CollisionType.Impassable);
 			AddGeometry (new Rectangle(330, 746, 66, 53), CollisionType.Impassable);
 			AddGeometry (new Rectangle(455, 746, 66, 54), CollisionType.Impassable);
-			AddGeometry (new Rectangle(593, 744, 257, 54), CollisionType.Impassable); //
+			AddGeometry (new Rectangle(593, 744, 257, 54), CollisionType.Impassable);
 			AddGeometry (new Rectangle(691, 428, 159, 52), CollisionType.Platform);
 			AddGeometry (new Rectangle(456, 535, 128, 51), CollisionType.Impassable);
 			AddGeometry (new Rectangle(231, 534, 152, 52), CollisionType.Platform);
@@ -74,7 +74,7 @@ namespace ProjectB.Levels
 
 			var w1 = SpawnWalker (new Vector2(195, 301), Directions.Left, 140f, 135f);
 			var w2 = SpawnWalker (new Vector2(304, 533), Directions.Right, 55f, 55f);
-			var s1 = SpawnSentry (new Vector2(761, 744), Directions.Left, 1800, gameState);
+			var s1 = SpawnSentry (new Vector2(780, 744), Directions.Left, 1800, gameState, 1.8f);
 			var s2 = SpawnSentry (new Vector2(30, 300), Directions.Right, 2000, gameState);
 
 			s1.Invincible = true;

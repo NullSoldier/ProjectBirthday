@@ -31,6 +31,7 @@ namespace ProjectB.States
 
 			batch = Engine.Batch;
 			catTexture = Engine.ContentManager.Load<Texture2D> ("NyanCat");
+			deathTexture = Engine.ContentManager.Load<Texture2D> ("Death");
 			healthBarTexture = Engine.ContentManager.Load<Texture2D> ("HealthBar");
 			reloadBarTexture = Engine.ContentManager.Load<Texture2D> ("ReloadBar");
 			nyanSoundEffect = Engine.ContentManager.Load<SoundEffect> ("Sound/Nyan");
@@ -39,6 +40,9 @@ namespace ProjectB.States
 			nyanInstance.IsLooped = false;
 			nyanInstance.Volume = 0.5f;
 			nyanInstance.Stop();
+
+			deathFont = Engine.ContentManager.Load<SpriteFont> ("DeathFont");
+			deathLocation = new Vector2 (HealthBarWidth + 20, 5);
 
 			EditorLoad();
 		}
@@ -119,7 +123,7 @@ namespace ProjectB.States
 					projectiles.Remove (P);
 				}
 
-				if (P.Location.X < 0 - 20 || P.Location.X > camera.Bounds.Width)
+				if (P.Location.X < 0 - 20 || P.Location.X > camera.Bounds.Width || (P.Life != -1 && P.Life <= 0))
 					projectiles.Remove (P);
 			}
 		}
@@ -157,6 +161,9 @@ namespace ProjectB.States
 				if (!canFireGun)
 					DrawReloadBar (batch);
 
+				batch.Draw (deathTexture, deathLocation, null, Color.White);
+				batch.DrawString (deathFont, deathCount.ToString (), deathLocation + new Vector2 (deathTexture.Width + 13, -3), Color.Black);
+
 				batch.End();
 			}
 
@@ -173,20 +180,25 @@ namespace ProjectB.States
 		public Camera camera;
 		public CloudManager cloudManager;
 		public EffectManager effectManager;
-		private bool editorModeEnabled = false;
 		public List<NyanCat> cats;
-		public int FriendsCaptured;
+		private List<Projectile> projectiles;
 		private Texture2D catTexture;
+		private Texture2D deathTexture;
 		private Texture2D healthBarTexture;
 		private Texture2D reloadBarTexture;
+		private SpriteFont deathFont;
 		private bool transitioning;
-		private List<Projectile> projectiles;
+		private bool editorModeEnabled = false;
+		public int FriendsCaptured;
+		private int deathCount = 0;
+		private Vector2 deathLocation;
 
-		public void SpawnProjectile (Vector2 location, Directions direction, float damage)
+		public void SpawnProjectile (Vector2 location, Directions direction, float damage, float life)
 		{
 			var projectile = new Projectile(direction, location)
 			{
-				Damage = damage
+				Damage = damage,
+				Life = life
 			};
 			projectiles.Add(projectile);
 		}
@@ -220,13 +232,31 @@ namespace ProjectB.States
 			if (Engine.NewKeyboard.IsKeyDown (Keys.F1) && Engine.OldKeyboard.IsKeyUp (Keys.F1))
 				editorModeEnabled = !editorModeEnabled;
 
-			if (((Engine.NewMouse.LeftButton == ButtonState.Pressed
-				&& Engine.OldMouse.LeftButton == ButtonState.Released)
+			if ((Engine.NewKeyboard.IsKeyDown (Keys.Enter) && Engine.OldKeyboard.IsKeyUp (Keys.Enter))
+				|| (Engine.NewPad.IsButtonDown (Buttons.Y) && Engine.OldPad.IsButtonUp (Buttons.Y)))
+			{
+				Rectangle playerBounds = CurrentLevel.Player.GetBounds ();
+
+				foreach (Chest chest in CurrentLevel.Chests)
+				{
+					if (!chest.IsActive || chest.Opened)
+						continue;
+
+					if (!chest.GetBounds ().Intersects (playerBounds))
+						continue;
+
+					chest.Open (this);
+				}
+			}
+
+			if (((Engine.NewKeyboard.IsKeyDown (Keys.Space)
+				&& Engine.OldKeyboard.IsKeyUp (Keys.Space))
 				|| (Engine.NewPad.IsButtonDown(Buttons.X)
 				&& Engine.OldPad.IsButtonUp(Buttons.X)))
 
 				&& !CurrentLevel.Player.isClimbing
-				&& canFireGun)
+				&& canFireGun
+				&& CurrentLevel.DisplayInterface)
 			{
 				float offset = 0;
 				if (CurrentLevel.Player.Direction == Directions.Left)
@@ -237,22 +267,6 @@ namespace ProjectB.States
 				SpawnCat (CurrentLevel.Player.Location + new Vector2 (offset, 0), CurrentLevel.Player.Direction);
 				canFireGun = false;
 				gunTimePassed = 0;
-			}
-			if ((Engine.NewKeyboard.IsKeyDown (Keys.Z) && Engine.OldKeyboard.IsKeyUp (Keys.Z))
-				|| (Engine.NewPad.IsButtonDown(Buttons.Y) && Engine.OldPad.IsButtonUp(Buttons.Y)))
-			{
-				Rectangle playerBounds = CurrentLevel.Player.GetBounds();
-
-				foreach (Chest chest in CurrentLevel.Chests)
-				{
-					if (!chest.IsActive || chest.Opened)
-						continue;
-
-					if (!chest.GetBounds().Intersects(playerBounds))
-						continue;
-
-					chest.Open (this);
-				}
 			}
 		}
 
@@ -287,6 +301,8 @@ namespace ProjectB.States
 			CurrentLevel.Player.Location = CurrentLevel.StartPoint;
 			CurrentLevel.Player.Health = CurrentLevel.Player.MaxHealth;
 			CurrentLevel.Player.Reset();
+
+			deathCount++;
 		}
 
 		private void CheckPlayerWin ()
@@ -302,8 +318,9 @@ namespace ProjectB.States
 				Engine.Project.NextLevel();
 				transitioning = true;
 			}
-			
 		}
+
+		private bool warnInvincible = false;
 
 		private void HandleNyanCats (GameTime gameTime)
 		{
@@ -314,9 +331,21 @@ namespace ProjectB.States
 				foreach (var entity in CurrentLevel.GameObjects)
 				{
 					var enemy = entity as BaseMonster;
-					if (enemy != null 
-						&& enemy.GetBounds().Intersects(cat.GetBounds()))
+					var turret = entity as SentryEnemy;
+
+					if (enemy != null && enemy.GetBounds().Intersects(cat.GetBounds()))
 					{
+						if (turret != null && turret.Invincible)
+						{
+							if (!warnInvincible)
+							{
+								Engine.DialogRunner.ShowTimed ("Megan", "It looks like those golden\nturrets can't be destroyed.", 1.3f);
+								warnInvincible = true;
+							}
+
+							continue;
+						}
+
 						enemy.Health -= NyanDamage;
  						cats.Remove(cat);
 

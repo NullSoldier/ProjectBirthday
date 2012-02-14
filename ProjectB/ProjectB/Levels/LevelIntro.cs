@@ -44,7 +44,7 @@ namespace ProjectB.Levels
 			boss = new Boss
 			{
 				Texture = Engine.ContentManager.Load<Texture2D> ("Boss"),
-				Location = new Vector2(350, 80),
+				Location = new Vector2(350, 180),
 				Alpha = 0f,
 				AcceptPhysicalInput = false
 			};
@@ -53,14 +53,23 @@ namespace ProjectB.Levels
 			GameObjects.Add (boss);
 
 			effects.Add ("Character", new CharacterMoveEffect(Player, 100, Directions.Right));
-			effects.Add ("Character", new WaitEffect (2f, () =>
+			effects.Add ("Character", new WaitEffect (0.75f));
+			effects.Add ("Character", new CharacterMoveEffect (Player, 0, Directions.Left));
+			effects.Add ("Character", new WaitEffect (0.75f));
+			effects.Add ("Character", new CharacterMoveEffect (Player, 0, Directions.Right));
+			effects.Add ("Character", new WaitEffect (0.75f));
+			effects.Add ("Character", new CharacterMoveEffect (Player, 0, Directions.Left));
+			effects.Add ("Character", new WaitEffect (0.75f));
+			effects.Add ("Character", new CharacterMoveEffect (Player, 0, Directions.Right));
+			effects.Add ("Character", new WaitEffect (0.75f, () =>
 			{
-			Engine.DialogRunner.EnqueueMessageBox ("Megan", "Why isn't anyone at my party?");
+			Engine.DialogRunner.EnqueueMessageBox ("Megan", "Why isn't anyone at my party? D:");
 			Engine.DialogRunner.EnqueueMessageBox ("Megan", "Where is everyone?", () =>
 			{
-			effects.Add ("Character", new CharacterFadeEffect  (boss, 0f, 1f, 1f));
+			effects.Add ("Character", new CharacterFadeEffect (boss, 0f, 1f, 1f));
 			effects.Add ("Character", new CharacterMoveEffect (Player, 50, Directions.Left));
-			effects.Add ("Character", new CharacterMoveEffect (Player, 1, Directions.Right, () =>
+			effects.Add ("Character", new CharacterMoveEffect (Player, 1, Directions.Right));
+			effects.Add ("Character", new WaitEffect (1.75f, () =>
 			{
 			Engine.DialogRunner.EnqueueMessageBox ("Megusta", "Haha! I am the evil overlord Megusta!");
 			Engine.DialogRunner.EnqueueMessageBox ("Megusta", "I've captured all of your friends! If you\nwant to get them back you'll have to defeat me!", () =>

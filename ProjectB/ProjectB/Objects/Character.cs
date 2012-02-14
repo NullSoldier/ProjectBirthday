@@ -272,8 +272,8 @@ namespace ProjectB
 
 		private bool ShouldAttachToLadder ()
 		{
-			return Engine.NewKeyboard.IsKeyDown (Keys.W)
-				|| Engine.NewKeyboard.IsKeyDown (Keys.S)
+			return Engine.NewKeyboard.IsKeyDown (Keys.Up)
+				|| Engine.NewKeyboard.IsKeyDown (Keys.Down)
 				|| Engine.NewPad.IsButtonDown(Buttons.DPadUp)
 				|| Engine.NewPad.IsButtonDown(Buttons.DPadDown);
 		}
@@ -335,22 +335,21 @@ namespace ProjectB
 
 		private void HandleInput()
 		{
-			if (Engine.NewKeyboard.IsKeyDown (Keys.A) || Engine.NewPad.IsButtonDown(Buttons.DPadLeft))
+			if (Engine.NewKeyboard.IsKeyDown (Keys.Left) || Engine.NewPad.IsButtonDown(Buttons.DPadLeft))
 				PerformAction (CharacterAction.MoveLeft);
-			else if (Engine.NewKeyboard.IsKeyDown (Keys.D) || Engine.NewPad.IsButtonDown(Buttons.DPadRight))
+			else if (Engine.NewKeyboard.IsKeyDown (Keys.Right) || Engine.NewPad.IsButtonDown(Buttons.DPadRight))
 				PerformAction (CharacterAction.MoveRight);
 
 			if (isClimbing)
 			{
-				if (Engine.NewKeyboard.IsKeyDown (Keys.W) || Engine.NewPad.IsButtonDown(Buttons.DPadUp))
+				if (Engine.NewKeyboard.IsKeyDown (Keys.Up) || Engine.NewPad.IsButtonDown(Buttons.DPadUp))
 					PerformAction (CharacterAction.ClimbUp);
-				else if (Engine.NewKeyboard.IsKeyDown (Keys.S) || Engine.NewPad.IsButtonDown(Buttons.DPadDown))
+				else if (Engine.NewKeyboard.IsKeyDown (Keys.Down) || Engine.NewPad.IsButtonDown(Buttons.DPadDown))
 					PerformAction (CharacterAction.ClimbDown);
 			}
 
 			// Check if the Character wants to jump.
-			isJumping = Engine.NewKeyboard.IsKeyDown (Keys.Space)
-				|| Engine.NewKeyboard.IsKeyDown (Keys.W) || Engine.NewPad.IsButtonDown(Buttons.A);
+			isJumping = Engine.NewKeyboard.IsKeyDown (Keys.Up) || Engine.NewPad.IsButtonDown(Buttons.A);
 		}
 
 		private void ResolveDirection()

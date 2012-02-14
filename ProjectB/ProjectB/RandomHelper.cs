@@ -16,5 +16,13 @@ namespace ProjectB
 				self.Next (0, maxY)
 			);
 		}
+
+		public static float LowClamp(float value, float min)
+		{
+			if (value < min)
+				return min;
+
+			return value;
+		}
 	}
 }

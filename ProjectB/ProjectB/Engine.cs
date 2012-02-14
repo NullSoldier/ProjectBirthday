@@ -90,7 +90,7 @@ namespace ProjectB
 
 			levels = new BaseLevel[]
 			{
-				new LevelTwo(), 
+				new LevelIntro(),
 				new LevelOne(),
 				new LevelTwo(), 
 				new LevelThree(),
@@ -119,11 +119,6 @@ namespace ProjectB
 
 			this.CurrentState = states["MenuState"];
 			this.CurrentState.Activate();
-
-			var music = Content.Load<Song> ("Sound\\Theme");
-			MediaPlayer.IsRepeating = true;
-			MediaPlayer.Volume = 0.5f;
-			MediaPlayer.Play(music);
 
 			Fade (0f, 255f, 0.50f);
 		}

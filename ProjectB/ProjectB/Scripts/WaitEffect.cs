@@ -23,7 +23,7 @@ namespace ProjectB.Scripts
 
 		public override void Start (GameState gameState)
 		{
-			timer = new Timer (waitFinished, null, (int)(delay * 100), Timeout.Infinite);
+			timer = new Timer (waitFinished, null, (int)(delay * 1000), Timeout.Infinite);
 		}
 
 		private Timer timer;

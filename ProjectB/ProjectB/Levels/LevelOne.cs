@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using ProjectB.Objects;
 using ProjectB.States;
 
@@ -63,7 +64,7 @@ namespace ProjectB.Levels
 			camera = gameState.camera;
 			{
 				camera.Bounds = new Rectangle(0, 0, Level.Texture.Width, Level.Texture.Height);
-				camera.UseBounds = false;
+				camera.UseBounds = true;
 				camera.Scale =  1f;
 				camera.CenterOnPoint (StartPoint);
 			}
@@ -77,6 +78,11 @@ namespace ProjectB.Levels
 			w2.Speed = 150;
 			SpawnWalker (new Vector2(605, 539), Directions.Right, 200f, 160f);
 			SpawnWalker (new Vector2(593, 357), Directions.Right, 100f, 100f);
+
+			var music = Engine.ContentManager.Load<Song> ("Sound\\Theme");
+			MediaPlayer.IsRepeating = true;
+			MediaPlayer.Volume = 0.4f;
+			MediaPlayer.Play (music);
 		}
 
 		private Camera camera;

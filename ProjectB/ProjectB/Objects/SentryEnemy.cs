@@ -11,12 +11,13 @@ namespace ProjectB.Objects
 	public class SentryEnemy
 		: BaseMonster
 	{
-		public SentryEnemy (Vector2 location, Directions defaultDirection, float fireSpeed, GameState gameState)
+		public SentryEnemy(Vector2 location, Directions defaultDirection, float fireSpeed, GameState gameState, float projectileLife)
 		{
 			this.Location = location;
 			this.FireSpeed = fireSpeed;
 			this.direction = defaultDirection;
 			this.gameState = gameState;
+			this.projectileLife = projectileLife;
 
 			if (direction == Directions.Left)
 				horizontalOffset = -64;
@@ -44,13 +45,14 @@ namespace ProjectB.Objects
 
 			if (timePassed >= FireSpeed)
 			{
-				gameState.SpawnProjectile (this.Location + new Vector2(horizontalOffset, -64), this.direction, Damage);
+				gameState.SpawnProjectile (this.Location + new Vector2(horizontalOffset, -64), this.direction, Damage, projectileLife);
 				timePassed = 0;
 			}
 
 		}
 
 		private float timePassed;
+		private float projectileLife;
 		private GameState gameState;
 
 		public override void Draw(SpriteBatch spriteBatch)
