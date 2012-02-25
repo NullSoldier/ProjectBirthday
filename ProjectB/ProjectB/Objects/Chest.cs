@@ -21,6 +21,7 @@ namespace ProjectB.Objects
 
 		public Friend Friend;
 		public bool Opened;
+		public Action OpenedAction;
 
 		public override void Draw (SpriteBatch spriteBatch)
 		{
@@ -45,6 +46,9 @@ namespace ProjectB.Objects
 				() => this.IsActive = false));
 
 			Opened = true;
+
+			if (OpenedAction != null)
+				OpenedAction ();
 		}
 	}
 }

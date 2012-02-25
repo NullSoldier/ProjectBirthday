@@ -13,6 +13,7 @@ namespace ProjectB.Objects
 		public Vector2 Location;
 		public bool IsActive;
 		public bool MarkedForDeletion;
+		public float Scale = 1f;
 
 		public virtual void Update(GameTime gameTime)
 		{

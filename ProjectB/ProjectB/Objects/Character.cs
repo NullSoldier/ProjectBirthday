@@ -75,7 +75,8 @@ namespace ProjectB
 			if (Direction == Directions.Right)
 				flip = SpriteEffects.FlipHorizontally;
 
-			Sprite.Draw (lastGametime, spriteBatch, Location, flip, drawColor);
+			if (Sprite.Animation != null)
+				Sprite.Draw (lastGametime, spriteBatch, Location, flip, drawColor, Scale);
 
 			flip = SpriteEffects.None;
 		}
